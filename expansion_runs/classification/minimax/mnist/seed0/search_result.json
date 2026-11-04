@@ -1,0 +1,21 @@
+{
+  "task": "mnist",
+  "seed": 0,
+  "one_shot": {
+    "accuracy": 0.088,
+    "cross_entropy": 2.3050308227539062,
+    "score": 0.08920097050517797
+  },
+  "gepa": {
+    "accuracy": 0.85,
+    "cross_entropy": 1.4124948978424072,
+    "score": 0.7914542204011233
+  },
+  "best_candidate": "1f9dad55bca2e340a0d68693090b142df03b635db452ed3dedc709d19f67ff39",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 2,
+  "metric_calls": 4560,
+  "construction_error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 149, in <module>\n    v=np.asarray(v,dtype=np.float32);assert v.shape==original[k].shape,f'Wrong shape: {k}'\nAssertionError: Wrong shape: fc1.weight\n",
+  "interface": "feedback-aware NumPy weight programs"
+}

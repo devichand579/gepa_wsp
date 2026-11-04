@@ -1,0 +1,13 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_accuracy": 1.0,
+      "num_features_kept": 1415,
+      "lambda_reg": 1.0,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 2.27897310256958
+  }
+}

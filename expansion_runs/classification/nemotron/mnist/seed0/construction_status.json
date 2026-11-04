@@ -1,0 +1,17 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "full_pool_accuracy": 0.1345,
+      "full_pool_cross_entropy": 3.6551685333251953,
+      "fc2_weight_mean_change": 1.7492625713348389,
+      "fc2_bias_mean_change": 0.8939129114151001,
+      "fc2_weight_norm": 83.52527618408203,
+      "fc2_bias_norm": 3.757502794265747,
+      "batch_used": 128,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 0.6723759174346924
+  }
+}

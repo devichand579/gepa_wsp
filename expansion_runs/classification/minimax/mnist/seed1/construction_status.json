@@ -1,0 +1,4 @@
+{
+  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 135, in <module>\n    if isinstance(node,ast.Attribute) and (node.attr.startswith('_') or node.attr in bad_attrs):raise ValueError('Disallowed attribute: '+node.attr)\nValueError: Disallowed attribute: __eq__\n",
+  "diagnostics": {}
+}

@@ -1,0 +1,9 @@
+{"proposal": 2, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 150, in <module>\n    assert np.isfinite(v).all() and np.max(np.abs(v),initial=0)<=1000,f'Nonfinite or oversized weights: {k}'\nAssertionError: Nonfinite or oversized weights: head.weight\n"}
+{"proposal": 3, "error": "Expected exactly one Python block"}
+{"proposal": 4, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 150, in <module>\n    assert np.isfinite(v).all() and np.max(np.abs(v),initial=0)<=1000,f'Nonfinite or oversized weights: {k}'\nAssertionError: Nonfinite or oversized weights: head.weight\n"}
+{"proposal": 8, "error": "Feedback weight program failed: "}
+{"proposal": 21, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 150, in <module>\n    assert np.isfinite(v).all() and np.max(np.abs(v),initial=0)<=1000,f'Nonfinite or oversized weights: {k}'\nAssertionError: Nonfinite or oversized weights: head.weight\n"}
+{"proposal": 22, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 150, in <module>\n    assert np.isfinite(v).all() and np.max(np.abs(v),initial=0)<=1000,f'Nonfinite or oversized weights: {k}'\nAssertionError: Nonfinite or oversized weights: head.weight\n"}
+{"proposal": 25, "error": "Feedback weight program failed: "}
+{"proposal": 37, "error": "Feedback weight program failed: "}
+{"proposal": 56, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 28, in edit\nValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 8 is different from 10)\n"}

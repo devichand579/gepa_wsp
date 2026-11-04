@@ -1,0 +1,21 @@
+{
+  "task": "fashion",
+  "seed": 1,
+  "one_shot": {
+    "accuracy": 0.1,
+    "cross_entropy": 2.301579236984253,
+    "score": 0.1000281758038327
+  },
+  "gepa": {
+    "accuracy": 0.782,
+    "cross_entropy": 1.7140920162200928,
+    "score": 0.722694260083791
+  },
+  "best_candidate": "7a087c4ad7e748946822c539354efac37fb6354555f464a0cb1a7383688602ea",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 2,
+  "metric_calls": 4560,
+  "construction_error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 53, in edit\nValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 10 is different from 1568)\n",
+  "interface": "feedback-aware NumPy weight programs"
+}

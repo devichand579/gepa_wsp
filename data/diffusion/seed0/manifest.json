@@ -1,0 +1,18 @@
+{
+  "seed": 0,
+  "source": "same MNIST train-partition IDs as classification",
+  "feedback": 2000,
+  "selection": 1000,
+  "resolution": 16,
+  "normalization": "bilinear resize, then 2*x-1",
+  "steps": 32,
+  "schedule": "cosine alpha_bar(t)=cos((t+.008)/1.008*pi/2)^2, beta clipped at.999",
+  "parameter_count": 56609,
+  "final_test": "official MNIST test; not loaded by this module",
+  "evaluation_noise_seeds": {
+    "feedback": 81000,
+    "selection": 82000,
+    "final": 83000
+  },
+  "sampler": "DDPM posterior, predicted x0 clipped[-1,1],32 steps"
+}

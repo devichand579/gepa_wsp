@@ -1,0 +1,17 @@
+{
+  "seed": 2,
+  "model": "minimax",
+  "one_shot": {
+    "mse": 1.0001435279846191,
+    "score": -1.0001435279846191
+  },
+  "gepa": {
+    "mse": 1.0001435279846191,
+    "score": -1.0001435279846191
+  },
+  "best_candidate": "f8d6266a286d927206a7bf62aa35e2920295b36e280b59c17f579f759c2abc05",
+  "proposals": 20,
+  "gepa_iterations": 20,
+  "metric_calls": 6120,
+  "final_test_evaluated": false
+}

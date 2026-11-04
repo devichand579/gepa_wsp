@@ -1,0 +1,21 @@
+{
+  "task": "fashion",
+  "seed": 2,
+  "one_shot": {
+    "accuracy": 0.856,
+    "cross_entropy": 1.7435238361358643,
+    "score": 0.7884138755710797
+  },
+  "gepa": {
+    "accuracy": 0.801,
+    "cross_entropy": 7.040480136871338,
+    "score": 0.8008049956441584
+  },
+  "best_candidate": "46952c81cd4c91d376ed0445e35be81512c0331e728ce514acc06bec7e7e47ab",
+  "proposals": 60,
+  "gepa_iterations": 60,
+  "tracked_candidates": 12,
+  "metric_calls": 27360,
+  "construction_error": null,
+  "interface": "feedback-aware NumPy weight programs"
+}

@@ -1,0 +1,42 @@
+{
+  "time": 1793729377.9353914,
+  "plan": "EXPANSION_PLAN.md",
+  "plan_sha256": "d6f50b76dc3ed97660bb69e9cfea8936d00c6f18cbf149fa06e9db5448c1aff3",
+  "models": [
+    "accounts/fireworks/models/deepseek-v4p1-flash",
+    "accounts/fireworks/models/minimax-m3p1-flash",
+    "accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b"
+  ],
+  "classification_budgets": [
+    0,
+    5,
+    10,
+    30,
+    60
+  ],
+  "alternative_model_budgets": [
+    0,
+    5,
+    10
+  ],
+  "diffusion_budgets": [
+    0,
+    5,
+    10,
+    20
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "whole_project_cap": 50,
+  "test_unlock_file": "runtime/EXPANSION_SELECTIONS_FROZEN.json",
+  "fresh_model_comparisons": [
+    "deepseek",
+    "minimax",
+    "nemotron"
+  ],
+  "compact_prompt_byte_cap": 180000,
+  "method_repairs": "runtime/EXPERIMENT_REPAIRS.json"
+}

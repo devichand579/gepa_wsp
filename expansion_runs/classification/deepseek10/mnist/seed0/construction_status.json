@@ -1,0 +1,14 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "pca_explained_variance_ratio": 0.9418662786483765,
+      "hidden_mean": 0.1928703784942627,
+      "hidden_std": 0.39433997869491577,
+      "train_accuracy": 0.8475,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 1.3684730529785156
+  }
+}

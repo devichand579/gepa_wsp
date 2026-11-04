@@ -1,0 +1,15 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_accuracy": 0.833,
+      "fc1_weight_norm": 11.31370735168457,
+      "fc2_weight_norm": 1.7816720008850098,
+      "n_components": 128,
+      "lambda_reg": 0.001,
+      "execution_worker_sha256": "128ff9df6df42d2bee070510cd9ce2dcdc02da81075606fb35097fa1f4b25278"
+    },
+    "program_executions": 2,
+    "wall_seconds": 3.2075579166412354
+  }
+}

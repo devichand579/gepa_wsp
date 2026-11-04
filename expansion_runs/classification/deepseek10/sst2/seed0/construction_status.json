@@ -1,0 +1,14 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_accuracy": 0.55675,
+      "head_weight_norm": 0.427404644174342,
+      "head_bias_norm": 0.7259883808541193,
+      "lambda": 0.001,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 1.0880661010742188
+  }
+}

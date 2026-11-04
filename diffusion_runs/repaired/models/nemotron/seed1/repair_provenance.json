@@ -1,0 +1,12 @@
+{
+  "folder": "diffusion_runs/repaired/models/nemotron/seed1",
+  "original": "diffusion_runs/models/nemotron/seed1",
+  "task": "diffusion",
+  "model": "nemotron",
+  "seed": 1,
+  "budget": 20,
+  "reason": "Fresh full-budget replacement after pre-test source review: Explicit MSE parameter gradients and learning-rate update.",
+  "time": 1793759756.194516,
+  "original_result_sha256": "f9b7f44a0f5150b5babdc0d15937b9217c764b7ea52a32ad22e3955440c93771",
+  "basis": "Method compliance only; original results preserved; no final-test results available."
+}

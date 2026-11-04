@@ -1,0 +1,18 @@
+{
+  "task": "fashion",
+  "seed": 2,
+  "model": "accounts/fireworks/models/deepseek-v4p1-flash",
+  "temperature": 0.6,
+  "thinking_budget": 8192,
+  "max_output_tokens": 32768,
+  "proposals": 10,
+  "interface": "feedback-aware NumPy edit(w,f); statistics and closed-form fitting allowed",
+  "initial_data_access": "full permitted feedback pool plus initial forward outputs, same for one-shot and GEPA",
+  "module_selector": "all",
+  "source_hashes": {
+    "rich_experiment.py": "ead7040df60a31acb202da6e1175d251a03bcb5d25a7c1e417b25889682b91f2",
+    "rich_worker.py": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa",
+    "experiment.py": "d711b468e962d6f87164027bf87ecd14caab69d9de88fdb18695e05efd5375b5",
+    "text_experiment.py": "89defbe001c472b59c6a2132132ee1347ab97a6dd7d4c8aaff6b0066ba13fd44"
+  }
+}

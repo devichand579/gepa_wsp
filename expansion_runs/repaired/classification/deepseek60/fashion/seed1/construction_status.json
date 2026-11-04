@@ -1,0 +1,15 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "best_lambda": 1.0,
+      "cv_accuracy": 0.8285,
+      "train_accuracy": 0.9275,
+      "head_weight_norm": 9.983976724956264,
+      "head_bias_norm": 0.34919158508905085,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 43.00525879859924
+  }
+}

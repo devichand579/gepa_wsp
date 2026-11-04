@@ -1,0 +1,21 @@
+{
+  "task": "sst2",
+  "seed": 1,
+  "one_shot": {
+    "accuracy": 0.564,
+    "cross_entropy": 0.6792149543762207,
+    "score": 0.5584860790729524
+  },
+  "gepa": {
+    "accuracy": 0.564,
+    "cross_entropy": 0.6792149543762207,
+    "score": 0.5584860790729524
+  },
+  "best_candidate": "24a5fb4d7736f59379a50262d584685c7e8169df1af41a95c6cf006b04e24a15",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 1,
+  "metric_calls": 3560,
+  "construction_error": null,
+  "interface": "feedback-aware NumPy weight programs"
+}

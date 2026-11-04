@@ -1,0 +1,21 @@
+{
+  "task": "mnist",
+  "seed": 2,
+  "one_shot": {
+    "accuracy": 0.76,
+    "cross_entropy": 1.9196423292160034,
+    "score": 0.6990051008109005
+  },
+  "gepa": {
+    "accuracy": 0.781,
+    "cross_entropy": 0.8511041402816772,
+    "score": 0.7776293671837237
+  },
+  "best_candidate": "83c6e62962aca32019b777d863c92e7fb67ed5ac89dd522cc15a77f0fb381f74",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 5,
+  "metric_calls": 7560,
+  "construction_error": null,
+  "interface": "feedback-aware NumPy weight programs"
+}

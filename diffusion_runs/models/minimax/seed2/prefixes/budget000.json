@@ -1,0 +1,11 @@
+{
+  "budget": 0,
+  "candidate": "f8d6266a286d927206a7bf62aa35e2920295b36e280b59c17f579f759c2abc05",
+  "selection": {
+    "mse": 1.0001435279846191,
+    "score": -1.0001435279846191
+  },
+  "cutoff_before_next_dispatch": 1793739373.0499856,
+  "completed_selection_evaluations": 1,
+  "weights_sha256": "204322b187b2e98fc381f678bfd15ca4f8a15079409f2b62654455f7da8002fd"
+}

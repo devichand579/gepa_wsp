@@ -1,0 +1,21 @@
+{
+  "task": "fashion",
+  "seed": 1,
+  "one_shot": {
+    "accuracy": 0.1,
+    "cross_entropy": 2.301579236984253,
+    "score": 0.1000281758038327
+  },
+  "gepa": {
+    "accuracy": 0.857,
+    "cross_entropy": 1.7487576007843018,
+    "score": 0.7892522642050872
+  },
+  "best_candidate": "0d51b039613fb25ab1e0414a68a5e538731caaaddd99b5390325a5d8e429fca5",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 2,
+  "metric_calls": 4560,
+  "construction_error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 80, in edit\n  File \"<feedback-weight-program>\", line 24, in forward\n  File \"<feedback-weight-program>\", line 9, in conv2d\nValueError: not enough values to unpack (expected 4, got 3)\n",
+  "interface": "feedback-aware NumPy weight programs"
+}

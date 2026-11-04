@@ -1,0 +1,12 @@
+{
+  "folder": "expansion_runs/repaired/classification/deepseek60/mnist/seed1",
+  "original": "expansion_runs/classification/deepseek60/mnist/seed1",
+  "task": "mnist",
+  "model": "deepseek",
+  "seed": 1,
+  "budget": 60,
+  "reason": "Fresh condition after parameter-gradient eligibility screen; original violating trajectory retained; no test outcomes consulted.",
+  "time": 1793758890.106632,
+  "original_result_sha256": "8e5a1139769b36f128b2c991fa3d6532599c6eee689d713b2efd82077821b895",
+  "basis": "Method compliance only; original results preserved; no final-test results available."
+}

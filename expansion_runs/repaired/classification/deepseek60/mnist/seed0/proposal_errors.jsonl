@@ -1,0 +1,7 @@
+{"proposal": 1, "error": "Expected exactly one Python block"}
+{"proposal": 17, "error": "Expected exactly one Python block"}
+{"proposal": 26, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 150, in <module>\n    assert np.isfinite(v).all() and np.max(np.abs(v),initial=0)<=1000,f'Nonfinite or oversized weights: {k}'\nAssertionError: Nonfinite or oversized weights: fc2.weight\n"}
+{"proposal": 29, "error": "Expected exactly one Python block"}
+{"proposal": 44, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 117, in edit\nValueError: operands could not be broadcast together with shapes (128,10) (10,128) \n"}
+{"proposal": 49, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 34, in edit\nValueError: operands could not be broadcast together with shapes (2000,10) (2000,) \n"}
+{"proposal": 50, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 150, in <module>\n    assert np.isfinite(v).all() and np.max(np.abs(v),initial=0)<=1000,f'Nonfinite or oversized weights: {k}'\nAssertionError: Nonfinite or oversized weights: fc1.bias\n"}

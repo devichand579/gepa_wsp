@@ -1,0 +1,18 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_accuracy": 0.9385,
+      "n_global_pca": 8,
+      "n_pca_per_class": 11,
+      "lambda_reg": 0.01,
+      "fc1_weight_mean": 0.010182298802566086,
+      "fc1_weight_std": 0.07504227549674537,
+      "fc2_weight_mean": 2.421468514743638e-06,
+      "fc2_weight_std": 0.03994627482152125,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 4.310434103012085
+  }
+}

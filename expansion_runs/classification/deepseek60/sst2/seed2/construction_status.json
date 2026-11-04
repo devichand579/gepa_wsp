@@ -1,0 +1,17 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "method": "ridge",
+      "acc_ridge": 0.57725,
+      "acc_lda": 0.57725,
+      "acc_final": 0.57725,
+      "acc_original": 0.48575,
+      "W_norm": 0.49828556696259,
+      "b_norm": 0.725287041686343,
+      "execution_worker_sha256": "136918cdad1d3690315c72db46f36966544ba6b7d0b1ffe84a2c2d8ffe0330c1"
+    },
+    "program_executions": 2,
+    "wall_seconds": 1.0269181728363037
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "budget": 10,
+  "candidate": "6912939a82ca4ce5923c369473f417a2e734a29485570dcfd3ed01a52419cd4e",
+  "selection": {
+    "accuracy": 0.526,
+    "cross_entropy": 0.6876383423805237,
+    "score": 0.523817429868132
+  },
+  "cutoff_before_next_dispatch": null,
+  "completed_selection_evaluations": 6,
+  "weights_sha256": "fea85ed5b1a430684a281c206d9da04815b42519d7a9608d53d58b537882d3f3"
+}

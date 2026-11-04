@@ -1,0 +1,21 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "candidate_accuracies": {
+        "current_features": 0.57725,
+        "neutral_blocks_keep_pos": 0.583,
+        "neutral_blocks_zero_pos": 0.57725
+      },
+      "chosen": 1,
+      "head_weight_norm": 0.7506312131881714,
+      "head_bias": [
+        0.509697437286377,
+        0.49029791355133057
+      ],
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 2.191648006439209
+  }
+}

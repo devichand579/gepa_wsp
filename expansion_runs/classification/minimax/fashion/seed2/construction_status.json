@@ -1,0 +1,4 @@
+{
+  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 92, in edit\n  File \"<feedback-weight-program>\", line 33, in forward\n  File \"<feedback-weight-program>\", line 17, in conv2d\nValueError: could not broadcast input array from shape (250,1,30,29) into shape (250,1,30,30)\n",
+  "diagnostics": {}
+}

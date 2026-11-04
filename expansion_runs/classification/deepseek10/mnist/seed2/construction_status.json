@@ -1,0 +1,27 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_accuracy": 0.831,
+      "lambda_reg": 0.001,
+      "k": 128,
+      "singular_values_top10": [
+        101.2572250366211,
+        87.34587860107422,
+        80.18557739257812,
+        77.07475280761719,
+        70.73773956298828,
+        66.38355255126953,
+        58.56272888183594,
+        54.958030700683594,
+        53.3179817199707,
+        49.4981803894043
+      ],
+      "fc1_weight_norm": 11.31370735168457,
+      "fc2_weight_norm": 1.8407236337661743,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 3.197286605834961
+  }
+}

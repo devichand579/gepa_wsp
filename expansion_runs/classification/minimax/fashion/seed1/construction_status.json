@@ -1,0 +1,4 @@
+{
+  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 80, in edit\n  File \"<feedback-weight-program>\", line 24, in forward\n  File \"<feedback-weight-program>\", line 9, in conv2d\nValueError: not enough values to unpack (expected 4, got 3)\n",
+  "diagnostics": {}
+}

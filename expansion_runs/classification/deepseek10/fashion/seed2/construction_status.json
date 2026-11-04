@@ -1,0 +1,15 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_acc": 0.9335,
+      "lam": 1.0,
+      "head_weight_abs_mean": 0.05057292804121971,
+      "head_weight_max": 0.5664219260215759,
+      "head_bias_abs_mean": 0.21487002074718475,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 2.0957984924316406
+  }
+}

@@ -1,0 +1,11 @@
+# Completed-study environment; selected package inventory, not a dependency lock.
+3.10.19 (main, Oct 21 2025, 16:43:05) [GCC 11.2.0]
+torch==2.10.0
+torchvision==0.25.0
+numpy==2.2.6
+scipy==1.15.3
+gepa==0.1.4
+matplotlib==3.10.9
+pillow==12.1.1
+pyarrow==23.0.0
+huggingface_hub==1.15.0

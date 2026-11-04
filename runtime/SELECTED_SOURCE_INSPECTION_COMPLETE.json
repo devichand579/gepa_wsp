@@ -1,0 +1,9 @@
+{
+  "time": 1793803348.7064788,
+  "jobs_verified": 45,
+  "selected_sources": 115,
+  "selected_sources_with_recorded_allowed_decisions": 115,
+  "audit_sha256": "9ba4faca455e57769ac7c28bcad39bf0794404155a45504e1b49d7de9f753df6",
+  "review_manifest_sha256": "42885790c3af54e4d97e49731b83df83df50b689fc306c932d72a2d483893190",
+  "final_test_inference_started": false
+}

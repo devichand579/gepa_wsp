@@ -1,0 +1,21 @@
+{
+  "task": "sst2",
+  "seed": 2,
+  "one_shot": {
+    "accuracy": 0.48,
+    "cross_entropy": 0.7170822620391846,
+    "score": 0.48145005714893346
+  },
+  "gepa": {
+    "accuracy": 0.762,
+    "cross_entropy": 0.5187873244285583,
+    "score": 0.7503143499261178
+  },
+  "best_candidate": "64af806e460c910bdef57ad807ab509723d3fde8272302a855c45d60c79f38bd",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 3,
+  "metric_calls": 5560,
+  "construction_error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 15, in edit\nValueError: operands could not be broadcast together with shapes (256000,) (4000,) \n",
+  "interface": "feedback-aware NumPy weight programs"
+}

@@ -1,0 +1,14 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "bias_update_mean_error": -0.012496977113187313,
+      "bias_before": 0.005489667411893606,
+      "bias_after": -0.007007309701293707,
+      "mse_before": 1.0021765232086182,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 1.8899695873260498
+  }
+}

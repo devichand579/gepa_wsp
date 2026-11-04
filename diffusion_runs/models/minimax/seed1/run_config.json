@@ -1,0 +1,66 @@
+{
+  "model": {
+    "id": "accounts/fireworks/models/minimax-m3p1-flash",
+    "prices": [
+      0.15,
+      0.6
+    ]
+  },
+  "seed": 1,
+  "proposals": 20,
+  "compact_context": true,
+  "network": {
+    "task": "MNIST16x16 unconditional DDPM epsilon prediction",
+    "parameter_count": 56609,
+    "tensor_shapes": {
+      "conv1.weight": [
+        32,
+        2,
+        3,
+        3
+      ],
+      "conv1.bias": [
+        32
+      ],
+      "conv2.weight": [
+        64,
+        32,
+        3,
+        3
+      ],
+      "conv2.bias": [
+        64
+      ],
+      "conv3.weight": [
+        64,
+        64,
+        3,
+        3
+      ],
+      "conv3.bias": [
+        64
+      ],
+      "out.weight": [
+        1,
+        64,
+        3,
+        3
+      ],
+      "out.bias": [
+        1
+      ]
+    },
+    "input": "x_t float32[N,1,16,16]; t int64[N] in0..31; clean images in[-1,1]",
+    "forward": "concat x_t with t/31 broadcast as second channel; conv1(2->32,3,pad1),ReLU; conv2(32->64,3,pad1),ReLU; conv3(64->64,3,pad1),ReLU; out(64->1,3,pad1), no output activation",
+    "objective": "Minimize per-example pixel-mean squared error between epsilon prediction and sampled Gaussian epsilon. GEPA maximizes negative MSE.",
+    "sampler": "32-step cosine-schedule DDPM; predicted x0 clipped[-1,1]; stochastic posterior with zero noise at final step",
+    "conventions": "PyTorch convolution cross-correlation weights[out,in,kernel_row,kernel_col], stride1. All source arrays and coefficients are full precision in edit(w,f)."
+  },
+  "source_hashes": {
+    "diffusion_experiment.py": "96b1f7932de8eddb8054038e0f74053f9206f403803d263dc6ed1d5879eea870",
+    "diffusion_core.py": "b590fae5cd4ae881e01b272347cf1a3a047cd0ec0baad2c178d8d04bd462e288",
+    "expansion_client.py": "43861056fd4bca8d156998a7552e55fc232d9920b6735d4a73628da08f40074e",
+    "rich_worker.py": "136918cdad1d3690315c72db46f36966544ba6b7d0b1ffe84a2c2d8ffe0330c1"
+  },
+  "final_test_evaluated": false
+}

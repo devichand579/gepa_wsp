@@ -1,0 +1,14 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "before_accuracy": 0.48575,
+      "after_accuracy": 0.5825,
+      "weight_delta_norm": 0.0,
+      "lambda": 0.001,
+      "execution_worker_sha256": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa"
+    },
+    "program_executions": 2,
+    "wall_seconds": 1.0013206005096436
+  }
+}

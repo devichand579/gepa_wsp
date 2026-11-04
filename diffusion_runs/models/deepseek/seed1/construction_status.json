@@ -1,0 +1,16 @@
+{
+  "error": null,
+  "diagnostics": {
+    "reported_statistics": {
+      "train_mse_after_fit": 0.23845207691192627,
+      "ridge_lambda": 2814.701312342204,
+      "out_weight_norm": 0.7686110734939575,
+      "out_bias": 0.8065277934074402,
+      "n_equations": 512000,
+      "n_params": 577,
+      "execution_worker_sha256": "136918cdad1d3690315c72db46f36966544ba6b7d0b1ffe84a2c2d8ffe0330c1"
+    },
+    "program_executions": 2,
+    "wall_seconds": 55.490474462509155
+  }
+}

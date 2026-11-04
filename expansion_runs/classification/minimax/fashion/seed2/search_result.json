@@ -1,0 +1,21 @@
+{
+  "task": "fashion",
+  "seed": 2,
+  "one_shot": {
+    "accuracy": 0.192,
+    "cross_entropy": 2.2981300354003906,
+    "score": 0.18287556057535112
+  },
+  "gepa": {
+    "accuracy": 0.84,
+    "cross_entropy": 1.6953426599502563,
+    "score": 0.7750339784850369
+  },
+  "best_candidate": "d38aeb5ef839382f644914f9dc3ba936f56566fc8ae23f4ccc5c1b0f4099ea87",
+  "proposals": 10,
+  "gepa_iterations": 10,
+  "tracked_candidates": 2,
+  "metric_calls": 4560,
+  "construction_error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 92, in edit\n  File \"<feedback-weight-program>\", line 33, in forward\n  File \"<feedback-weight-program>\", line 17, in conv2d\nValueError: could not broadcast input array from shape (250,1,30,29) into shape (250,1,30,30)\n",
+  "interface": "feedback-aware NumPy weight programs"
+}

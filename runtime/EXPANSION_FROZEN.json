@@ -1,0 +1,56 @@
+{
+  "time": 1793730383.5172553,
+  "plan_sha256": "d6f50b76dc3ed97660bb69e9cfea8936d00c6f18cbf149fa06e9db5448c1aff3",
+  "models": [
+    "accounts/fireworks/models/deepseek-v4p1-flash",
+    "accounts/fireworks/models/minimax-m3p1-flash",
+    "accounts/fireworks/models/nemotron-lightning-3p5-30b-a3b"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "classification_continuation_budget": 60,
+  "additional_model_budget": 10,
+  "diffusion_budget": 20,
+  "whole_project_cap": 50,
+  "source_hashes": {
+    "expansion_client.py": "8cb92935651442731e5eb6882a03b6b17e49fd55cf5a8e102ea77b74a23dcd0a",
+    "classification_followup.py": "642218bd3b121f5d8ce1acfd6024ab53710a446b19b608aca1cbc66cca88cb70",
+    "expansion_queue.py": "4ed2ba505c2ba649b28735dbcfd55a700ce1e0269e6fbc3d135d3fcbbf95b31b",
+    "diffusion_experiment.py": "238837ace42bea0636e2bb8fa4945143bc0d2d8889ef0012aa3146d713cbec46",
+    "diffusion_core.py": "b590fae5cd4ae881e01b272347cf1a3a047cd0ec0baad2c178d8d04bd462e288",
+    "rich_experiment.py": "ead7040df60a31acb202da6e1175d251a03bcb5d25a7c1e417b25889682b91f2",
+    "rich_worker.py": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa",
+    "experiment.py": "d711b468e962d6f87164027bf87ecd14caab69d9de88fdb18695e05efd5375b5",
+    "text_experiment.py": "89defbe001c472b59c6a2132132ee1347ab97a6dd7d4c8aaff6b0066ba13fd44",
+    "check_diffusion_gepa.py": "685943102457a73837925384affa0e179a334d9d99e84166ea17246b975db2eb",
+    "check_expansion_queue.py": "e217358772fa1a1018bea65c7171dc045e81066c0ff00b524af69175eda046a1",
+    "expansion_finalize.py": "a6510c8a6f5916b83a571697306c641d362a999ab4ed742c8ba8897aa7c7c64c",
+    "check_expansion_finalizer.py": "9f9d708616b1efed49cdff0fdbcce61d02e40636b473b9cf06d7bcc39ebed73a",
+    "rich_finalize.py": "4623ecaacc4a0c39758e3fa2f90fd92a636c88750fe2ae05a91d2e219fa4fa9a",
+    "check_expansion_evaluation_flow.py": "d6bd689be99884ccfb67c4433e2585c87495d21447a6ce2ce010a39e4bb2566e",
+    "check_expansion_report.py": "6532638f141fe8362b150b1ff3480817fc2557b5751eb23ee3119b9dfd73a23b",
+    "repair_experiment.py": "51e4fa7e1312e53501cf54afcdf2005ee08a411f0982375f38ff9d0ae7c57e46",
+    "check_parameter_gradient_screen.py": "d5d0150eae5bae4301287fd787548baf7188c6fd6f8e1efa3008e09e18847e8b"
+  },
+  "data_hashes": {
+    "data/diffusion/seed2/manifest.json": "ec9947dac56f14c34e8552808d453081f7c4c6ee4bda9b06acdc2b0af6d9fa53",
+    "data/diffusion/seed0/manifest.json": "76169191b7910f0741a3dc918ff2b25ad1f701acbefa6bd506a081a95eca02c1",
+    "data/diffusion/seed1/manifest.json": "2f944da884a206a605b22fec7a69501bfb275ec63ab1f0fb5c4278f40758728a"
+  },
+  "context_compatibility_amendment_at": 1793730913.3163455,
+  "followup_jobs": 45,
+  "final_evaluator_completed_at": 1793732129.4782581,
+  "method_screen_added_at": 1793758762.5224636,
+  "repair_manifest_sha256": "0627440f1f51beb16bd7de88a1a52e600effc3e108791d47cd1d680881028f81",
+  "repair_reporting_amendment_at": 1793759237.3467398,
+  "extended_method_screen_at": 1793759465.916641,
+  "verified_pricing_amendment_at": 1793759616.8745685,
+  "known_prohibited_gate_verified_at": 1793759717.587621,
+  "unnamed_gradient_screen_at": 1793760518.4601135,
+  "reliability_reporting_added_at": 1793761531.9431283,
+  "gpu_work_sharing_added_at": 1793761893.7940295,
+  "compute_budget_wording_updated_at": 1793766017.3196602
+}

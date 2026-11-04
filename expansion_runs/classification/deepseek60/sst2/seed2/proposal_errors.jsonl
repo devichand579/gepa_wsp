@@ -1,0 +1,19 @@
+{"proposal": 6, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 30, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 211, in edit\nNameError: name 'R' is not defined\n"}
+{"proposal": 10, "error": "Incomplete LLM response: length"}
+{"proposal": 12, "error": "Expected exactly one Python block"}
+{"proposal": 17, "error": "Incomplete LLM response: length"}
+{"proposal": 22, "error": "Feedback weight program failed: "}
+{"proposal": 26, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 30, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 136, in edit\nValueError: operands could not be broadcast together with shapes (4000,2) (2,1) \n"}
+{"proposal": 27, "error": "Incomplete LLM response: length"}
+{"proposal": 31, "error": "Feedback weight program failed: "}
+{"proposal": 32, "error": "Incomplete LLM response: length"}
+{"proposal": 35, "error": "Expected exactly one Python block"}
+{"proposal": 37, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 49, in edit\nNameError: name 'a_v' is not defined. Did you mean: 'b_v'?\n"}
+{"proposal": 38, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 126, in edit\nValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 32 is different from 2000)\n"}
+{"proposal": 39, "error": "Expected exactly one Python block"}
+{"proposal": 40, "error": "Expected exactly one Python block"}
+{"proposal": 47, "error": "Feedback weight program failed: "}
+{"proposal": 48, "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 77, in edit\n  File \"numpy/random/mtrand.pyx\", line 1306, in numpy.random.mtrand.RandomState.randn\n  File \"numpy/random/mtrand.pyx\", line 1467, in numpy.random.mtrand.RandomState.standard_normal\n  File \"numpy/random/_common.pyx\", line 657, in numpy.random._common.cont\nnumpy._core._exceptions._ArrayMemoryError: Unable to allocate 15.3 GiB for an array with shape (4000000, 512) and data type float64\n"}
+{"proposal": 49, "error": "Incomplete LLM response: length"}
+{"proposal": 50, "error": "Incomplete LLM response: length"}
+{"proposal": 57, "error": "Incomplete LLM response: length"}

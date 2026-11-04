@@ -1,0 +1,11 @@
+{
+  "n_samples": 128,
+  "sample_seed": 89000,
+  "grid": "expanded_results/generations/seed0_dc59b02e85ee0e230ef490d870d0fc53e35fc1578aea5970bbdda8204381ee58.png",
+  "samples": "expanded_results/generations/seed0_dc59b02e85ee0e230ef490d870d0fc53e35fc1578aea5970bbdda8204381ee58.npz",
+  "pixel_mean": -0.5548621416091919,
+  "pixel_std": 0.46116772294044495,
+  "spatial_total_variation": 0.3508782982826233,
+  "mean_nearest_training_pixel_mse": 0.36712080240249634,
+  "note": "Pixel statistics and training-neighbor distances are descriptive, not validated perceptual quality scores."
+}
