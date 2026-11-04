@@ -577,6 +577,11 @@
     "results/checkpoints/adam/diffusion/seed2.npz": {
       "sha256": "49f287b6e3f0c00ada71f9265784b6785c92c7a51875674c6d45a7531099f8c6",
       "original_path": "diffusion_runs/baselines/seed2/adam_best.npz"
+    },
+    "results/predictions.json": {
+      "sha256": "f4996540cfb16b44accdb328f04259b4f45df373441acd88c16a706c0678fc81",
+      "original_path": null,
+      "note": "Post-study illustration from existing frozen prediction caches; fixed first 24 examples per task."
     }
   },
   "checkpoints": [

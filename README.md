@@ -2,7 +2,7 @@
 
 Final code and results: **45 runs, 3 LLMs, seeds 0/1/2, 4 network tasks, $45.82 API cost**.
 
-**[Visual blog](blog/index.html)** · [Results](results/results.json) · [CSV](results/summary.csv)
+**[Visual blog](blog/index.html)** · [Results](results/results.json) · [CSV](results/summary.csv) · [Prediction examples](results/predictions.json)
 
 The loop improves one-shot statistical weight programs, but does not generally replace Adam. Closed-form fits and training feedback are allowed; parameter-gradient updates are excluded. Text results often use bag-of-words constructions; diffusion remains weak. Full findings and limitations are in the blog.
 
@@ -42,4 +42,4 @@ python -m unittest discover -s tests -p 'test_*.py'
 
 Use `--device cpu` for CPU execution. `--workspace /path` before the command selects another data/output directory. Search defaults to the matched compact prompt; `--full-context` selects the original classification budget-study display. Final evaluation is a separate command; review new selected programs before interpreting their results as method-compliant.
 
-Reported metrics are unchanged. Historical receipts and result paths refer to the [original complete snapshot](https://github.com/devichand579/gepa_wsp/tree/5b4c4bf50725d250f38a0e309833abbc46083373), which preserves intermediate weights, generated programs and the full recorded protocol. The current checkout contains only endpoint weights; their paths and hashes are in [the manifest](results/manifest.json). Refactored source is a final implementation, not the byte-identical historical source freeze. Credentials and raw datasets are excluded.
+Reported metrics are unchanged. Historical receipts and result paths refer to the [original complete snapshot](https://github.com/devichand579/gepa_wsp/tree/5b4c4bf50725d250f38a0e309833abbc46083373), which preserves intermediate weights, generated programs and the full recorded protocol. The current checkout contains only endpoint weights; their paths and hashes are in [the manifest](results/manifest.json). Refactored source is a final implementation, not the byte-identical historical source freeze. Credentials and full raw datasets are excluded; the blog includes the first 24 held-out examples per classification task, with cached one-shot/GEPA/Adam predictions.

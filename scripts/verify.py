@@ -46,10 +46,32 @@ def main():
     data = (ROOT/'blog/data.js').read_text()
     assert json.loads(data.removeprefix('window.STUDY = ').removesuffix(';\n')) == result
     assert len(re.findall(r'<tr data-group=', page)) == 54
+    examples = read('results/predictions.json')
+    script = (ROOT/'blog/predictions.js').read_text()
+    assert json.loads(script.removeprefix('window.PREDICTIONS = ').removesuffix(';\n')) == examples
+    selections = read('results/audit/EXPANSION_SELECTIONS_FROZEN.json')['selections']
+    for task in ['mnist', 'fashion', 'sst2']:
+        section = examples['tasks'][task]
+        assert [r['index'] for r in section['samples']] == list(range(24))
+        assert len(section['conditions']) == 12
+        for condition in section['conditions']:
+            group, model, seed, budget = [condition[k] for k in ['group', 'model', 'seed', 'budget']]
+            job = f'deepseek60_{task}_{seed}' if group == 'budget' else f'{model}_{task}_{seed}'
+            for method, prefix in [('one_shot', 0), ('gepa', budget)]:
+                expected = next(r for r in result['classification'] if all(r[k] == v for k, v in dict(group=group, task=task, model=model, seed=seed, budget=prefix).items()))
+                assert condition[method]['accuracy'] == expected['accuracy']
+                assert condition[method]['weights_sha256'] == selections[job][str(prefix)]['weights_sha256']
+            expected = next(r for r in result['baselines'] if r['task'] == task and r['seed'] == seed)
+            assert condition['adam']['accuracy'] == expected['accuracy']
+            checkpoint = next(r for r in manifest['checkpoints'] if r['group'] == 'adam' and r['task'] == task and r['seed'] == seed)
+            assert condition['adam']['weights_sha256'] == checkpoint['sha256']
+            for method in ['one_shot', 'gepa', 'adam']:
+                predictions = condition[method]['predictions']
+                assert len(predictions) == 24 and all(0 <= v < len(section['labels']) for v in predictions)
     for target in re.findall(r'(?:href|src)="([^"#]+)"', page):
         if not target.startswith(('http:', 'https:')):
             assert (ROOT/'blog'/target.split('#')[0]).exists(), target
-    print('PASS: retained artifact hashes, 57 checkpoints, 162 result rows, 54 aggregates, accounting and blog.')
+    print('PASS: artifact hashes, checkpoints, aggregate results, cached prediction examples, accounting and blog.')
 
 
 if __name__ == '__main__':

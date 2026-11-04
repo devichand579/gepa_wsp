@@ -32,6 +32,23 @@ def main():
             assert page.locator('.model-card').count() == 3
         page.locator('#show-seeds').uncheck()
         assert page.locator('#budget-chart svg').count() == 1
+        for task in ['mnist', 'fashion', 'sst2']:
+            page.locator(f'[data-prediction-task="{task}"]').click()
+            expected_count = 4 if task == 'sst2' else 8
+            for condition in ['budget/deepseek', 'models/deepseek', 'models/minimax', 'models/nemotron']:
+                page.select_option('#prediction-condition', condition)
+                for seed in ['0', '1', '2']:
+                    page.select_option('#prediction-seed', seed)
+                    assert page.locator('.prediction-card').count() == expected_count
+                    assert page.locator('.prediction-answer').count() == expected_count*3
+                    assert page.locator('.prediction-card').evaluate_all('(cards)=>cards.every(c=>[...c.querySelectorAll(".prediction-answer")].every(a=>a.classList.contains("correct")===(a.dataset.prediction===c.dataset.label)))')
+            page.locator('#prediction-next').click()
+            assert page.locator('.prediction-card').first.get_attribute('data-index') == str(expected_count)
+            page.locator('#prediction-prev').click()
+            assert page.locator('.prediction-card').first.get_attribute('data-index') == '0'
+            for value in ['disagree', 'repair', 'regression', 'all']:
+                page.select_option('#prediction-filter', value)
+            page.locator('#predictions').screenshot(path=str(out/f'desktop-predictions-{task}.png'))
         for model in ['deepseek', 'minimax', 'nemotron']:
             page.locator(f'[data-diff-model="{model}"]').click()
             for seed in ['0', '1', '2']:
@@ -61,6 +78,10 @@ def main():
                 page.screenshot(path=str(out/'mobile-hero.png'))
                 page.locator('#results').screenshot(path=str(out/'mobile-budget.png'))
                 page.locator('#diffusion').screenshot(path=str(out/'mobile-diffusion.png'))
+                for task in ['mnist', 'fashion', 'sst2']:
+                    page.locator(f'[data-prediction-task="{task}"]').click()
+                    page.locator('#predictions').screenshot(path=str(out/f'mobile-predictions-{task}.png'))
+                    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
         assert not errors, errors
         # No remote assets: external references are links, not resource loads.
         resources = page.evaluate('performance.getEntriesByType("resource").map(r=>r.name)')

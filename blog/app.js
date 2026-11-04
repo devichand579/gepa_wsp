@@ -12,6 +12,7 @@
   const taskSummary = (group,task,model) => D.classification_summary.filter(r=>r.group===group&&r.task===task&&r.model===model).sort((a,b)=>a.budget-b.budget);
   const adam = task => mean(D.baselines.filter(r=>r.task===task).map(r=>r.accuracy));
   let budgetTask="mnist", modelTask="mnist", diffModel="deepseek";
+  let predictionTask="mnist", predictionPage=0;
   const budgets=[0,5,10,30,60];
 
   function wireButtons(attribute, callback) {
@@ -92,6 +93,41 @@
     $("sample-download").setAttribute("download","");
   }
 
+  function drawPredictions() {
+    const task=window.PREDICTIONS.tasks[predictionTask];
+    const [group,model]=$('prediction-condition').value.split('/');
+    const seed=Number($('prediction-seed').value);
+    const condition=task.conditions.find(r=>r.group===group&&r.model===model&&r.seed===seed);
+    const methods=[['one_shot','One shot'],['gepa',`GEPA · ${condition.budget}`],['adam','Adam']];
+    $('prediction-scores').innerHTML=methods.map(([key,title])=>`<div><span>${title}</span><strong>${pct(condition[key].accuracy)}</strong><small>Full held-out split · seed ${seed}</small></div>`).join('');
+    $('prediction-context').textContent=predictionTask==='sst2'?'872-example labeled validation split. Original review text is shown; the target receives lowercase token IDs, truncated to 64 tokens, using its training-only vocabulary.':'10,000-example official test split. Images are original 28 × 28 inputs. True labels appear above each method’s answer.';
+    $('prediction-construction').hidden=!condition.construction_failed;
+    $('prediction-construction').textContent='This one-shot construction failed validation and retained random initialization. GEPA gains include recovery from that failure.';
+    const filter=$('prediction-filter').value;
+    const selected=task.samples.filter((sample,i)=>{
+      const one=condition.one_shot.predictions[i],gepa=condition.gepa.predictions[i],adam=condition.adam.predictions[i];
+      if(filter==='disagree')return new Set([one,gepa,adam]).size>1;
+      if(filter==='repair')return one!==sample.label&&gepa===sample.label;
+      if(filter==='regression')return one===sample.label&&gepa!==sample.label;
+      return true;
+    });
+    const size=predictionTask==='sst2'?4:8;
+    predictionPage=Math.min(predictionPage,Math.max(0,Math.ceil(selected.length/size)-1));
+    const offset=predictionPage*size;
+    $('prediction-cards').classList.toggle('text-predictions',predictionTask==='sst2');
+    $('prediction-cards').innerHTML=selected.slice(offset,offset+size).map(sample=>{
+      const i=sample.index;
+      const input=sample.image?`<img class="prediction-input" src="${sample.image}" alt="${names[predictionTask]} test example ${i}, true class ${esc(task.labels[sample.label])}" width="84" height="84">`:`<blockquote>${esc(sample.text)}</blockquote>`;
+      return `<article class="prediction-card" data-index="${i}" data-label="${sample.label}"><div class="prediction-example-id">EXAMPLE ${String(i).padStart(2,'0')}</div><div class="prediction-input-row">${input}<div class="prediction-truth"><span>True label</span><b>${esc(task.labels[sample.label])}</b></div></div><div class="prediction-answers">${methods.map(([key,title])=>{
+        const predicted=condition[key].predictions[i],correct=predicted===sample.label;
+        return `<div class="prediction-answer ${correct?'correct':'incorrect'}" data-method="${key}" data-prediction="${predicted}"><span>${title}</span><strong>${esc(task.labels[predicted])}</strong><i aria-label="${correct?'Correct':'Incorrect'}">${correct?'✓':'×'}</i></div>`;
+      }).join('')}</div></article>`;
+    }).join('')||'<p class="prediction-empty">No examples in the fixed 24 match this filter.</p>';
+    $('prediction-prev').disabled=predictionPage===0;
+    $('prediction-next').disabled=offset+size>=selected.length;
+    $('prediction-count').textContent=selected.length?`${offset+1}–${Math.min(offset+size,selected.length)} of ${selected.length}${filter==='all'?' fixed examples':' matching examples (within 24)'}`:'0 matching examples (within 24)';
+  }
+
   function reliability() {
     const groups=[["budget","60-call classification"],["models","Matched 10-call classification"],["diffusion","20-call diffusion"]];
     $("reliability-bars").innerHTML=groups.map(([group,name])=>{
@@ -120,6 +156,10 @@
   wireButtons("data-budget-task",task=>{budgetTask=task;drawBudget();});
   wireButtons("data-model-task",task=>{modelTask=task;drawModels();});
   wireButtons("data-diff-model",model=>{diffModel=model;drawSamples();});
+  wireButtons('data-prediction-task',task=>{predictionTask=task;predictionPage=0;drawPredictions();});
+  ['prediction-condition','prediction-seed','prediction-filter'].forEach(id=>$(id).addEventListener('change',()=>{predictionPage=0;drawPredictions();}));
+  $('prediction-prev').addEventListener('click',()=>{predictionPage--;drawPredictions();});
+  $('prediction-next').addEventListener('click',()=>{predictionPage++;drawPredictions();});
   $("budget-slider").addEventListener("input",drawBudget);
   $("show-seeds").addEventListener("change",drawBudget);
   $("diff-seed").addEventListener("change",drawSamples);
@@ -128,5 +168,5 @@
     const total=document.documentElement.scrollHeight-window.innerHeight;
     $("reading-progress").style.width=(total>0?100*window.scrollY/total:0)+"%";
   },{passive:true});
-  drawBudget();drawModels();drawDiffusion();drawSamples();reliability();filterTable();
+  drawBudget();drawModels();drawDiffusion();drawSamples();drawPredictions();reliability();filterTable();
 })();
