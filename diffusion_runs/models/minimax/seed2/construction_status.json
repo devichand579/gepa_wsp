@@ -1,4 +1,0 @@
-{
-  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 30, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 41, in edit\nValueError: cannot reshape array of size 64 into shape (64,3,3)\n",
-  "diagnostics": {}
-}

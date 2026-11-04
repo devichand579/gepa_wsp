@@ -1,6 +1,9 @@
-torch==2.10.0+cu128
-torchvision==0.25.0+cu128
+torch==2.10.0
+torchvision==0.25.0
 numpy==2.2.6
 scipy==1.15.3
 gepa==0.1.4
 matplotlib==3.10.9
+Pillow==12.1.1
+pyarrow==23.0.0
+huggingface_hub==1.15.0

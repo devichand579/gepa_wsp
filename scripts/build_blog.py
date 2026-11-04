@@ -10,7 +10,7 @@ NAMES = {"mnist": "MNIST", "fashion": "Fashion-MNIST", "sst2": "SST-2", "diffusi
 
 
 def main():
-    data = json.loads((ROOT / "expanded_results/results.json").read_text())
+    data = json.loads((ROOT / "results/results.json").read_text())
     BLOG.mkdir(exist_ok=True)
     (BLOG / "data.js").write_text("window.STUDY = " + json.dumps(data, separators=(",", ":")) + ";\n")
     rows = []
@@ -24,9 +24,8 @@ def main():
     (BLOG / "index.html").write_text(template.replace("<!-- RESULT_ROWS -->", "\n".join(rows)))
     assets = BLOG / "assets"
     assets.mkdir(exist_ok=True)
-    shutil.copy2(ROOT / "figures/expanded/diffusion_log.png", assets / "diffusion_log.png")
     for row in data["diffusion"] + [r for r in data["baselines"] if r["task"] == "diffusion"]:
-        source = ROOT / row["generation"]["grid"]
+        source = ROOT / "results/generations" / Path(row["generation"]["grid"]).name
         shutil.copy2(source, assets / source.name)
     print("Built blog: 54 aggregate rows, 162 checkpoints, all diffusion grids; no API calls.")
 

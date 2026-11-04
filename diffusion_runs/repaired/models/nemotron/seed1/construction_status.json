@@ -1,4 +1,0 @@
-{
-  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 101, in <module>\n    v=np.asarray(v,dtype=np.float32);assert v.shape==original[k].shape,f'Wrong shape: {k}'\nAssertionError: Wrong shape: out.bias\n",
-  "diagnostics": {}
-}

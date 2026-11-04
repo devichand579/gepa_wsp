@@ -1,4 +1,0 @@
-{
-  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 15, in edit\nValueError: operands could not be broadcast together with shapes (256000,) (4000,) \n",
-  "diagnostics": {}
-}

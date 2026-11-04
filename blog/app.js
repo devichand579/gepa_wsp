@@ -88,7 +88,7 @@
     const seed=Number($("diff-seed").value), rows=D.diffusion.filter(r=>r.model===diffModel&&r.seed===seed);
     const one=rows.find(r=>r.budget===0),end=rows.find(r=>r.budget===20),baseline=D.baselines.find(r=>r.task==="diffusion"&&r.seed===seed);
     $("sample-grids").innerHTML=[[one,"One shot / 0",names[diffModel]],[end,"After 20 mutations",names[diffModel]],[baseline,"Adam baseline","Adam"]].map(([r,title,label])=>`<figure><h3>${title}</h3><img src="assets/${esc(r.generation.grid.split('/').pop())}" width="360" height="360" alt="${label}, seed ${seed}, ${title}: first 64 fixed draws"><div class="sample-mse">Seed ${seed} MSE: ${r.mse.toFixed(5)}</div><figcaption>${label} · fixed first 64 draws</figcaption></figure>`).join("");
-    $("sample-download").href="../"+end.generation.samples;
+    $("sample-download").href="../results/generations/"+end.generation.samples.split("/").pop();
     $("sample-download").setAttribute("download","");
   }
 

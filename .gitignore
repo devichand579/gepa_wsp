@@ -5,13 +5,5 @@ __pycache__/
 .env*
 *.log
 .DS_Store
-/data/raw/
-/data/**/*.npz
-/expanded_results/cache/
-**/checkpoints/
-**/gepa/
-**/llm/**/request.json
-**/llm/**/response.json
-**/llm/**/prompt.txt
-/runtime/*.lock
+/work/
 /blog/preview*.png

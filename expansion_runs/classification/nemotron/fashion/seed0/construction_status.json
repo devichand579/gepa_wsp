@@ -1,4 +1,0 @@
-{
-  "error": "Feedback weight program failed: Traceback (most recent call last):\n  File \"/worker.py\", line 144, in <module>\n    w={k:v.copy() for k,v in original.items()};result=ns['edit'](w,f);diagnostics={}\n  File \"<feedback-weight-program>\", line 30, in edit\n  File \"/opt/numpy/linalg/_linalg.py\", line 410, in solve\n    r = gufunc(a, b, signature=signature)\nValueError: solve: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (m,m),(m,n)->(m,n) (size 10 is different from 1569)\n",
-  "diagnostics": {}
-}
