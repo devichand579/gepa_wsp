@@ -15,6 +15,11 @@ def main():
     commands = parser.add_subparsers(dest='command', required=True)
     prepare = commands.add_parser('prepare')
     prepare.add_argument('--task', choices=TASKS+['all'], default='all')
+    resume = commands.add_parser('resume', help='Continue the original preserved searches')
+    resume.add_argument('--archive', type=Path, required=True)
+    resume.add_argument('--cap', type=float, required=True, help='Additional API dollar cap above preserved historical spending')
+    resume.add_argument('--workers', type=int, default=4)
+    commands.add_parser('status', help='Show continuation progress and inclusive accounting')
     for name in ['adam', 'search', 'evaluate']:
         command = commands.add_parser(name)
         command.add_argument('--task', choices=TASKS, required=True)
@@ -28,6 +33,12 @@ def main():
         if name == 'evaluate':
             command.add_argument('--weights', type=Path, required=True)
     args = parser.parse_args()
+    if args.command in ['resume', 'status']:
+        sys.path.insert(0, str(ROOT/'src'))
+        from resume import start, status
+        result = start(args.archive, args.workspace, args.cap, args.workers) if args.command == 'resume' else status(args.workspace)
+        print(json.dumps(result, indent=2))
+        return
     os.environ['GEPA_WSP_WORKSPACE'] = str(args.workspace.resolve())
     os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', ':4096:8')
     sys.path.insert(0, str(ROOT/'src'))

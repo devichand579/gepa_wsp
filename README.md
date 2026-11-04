@@ -9,7 +9,7 @@ The loop improves one-shot statistical weight programs, but does not generally r
 | Path | Purpose |
 |---|---|
 | `run.py` | Prepare data, train Adam, run GEPA, evaluate frozen weights |
-| `src/` | Nine final modules: models, reflection, sandbox, fitting interface and accounting |
+| `src/` | Final models, reflection, sandbox, accounting and continuation runner |
 | `results/` | All metrics, sample arrays, 45 final LLM weights, 12 Adam weights and audit receipts |
 | `blog/` | Offline interactive article |
 | `tests/`, `scripts/` | Checks and article builder |
@@ -41,5 +41,14 @@ python -m unittest discover -s tests -p 'test_*.py'
 ```
 
 Use `--device cpu` for CPU execution. `--workspace /path` before the command selects another data/output directory. Search defaults to the matched compact prompt; `--full-context` selects the original classification budget-study display. Final evaluation is a separate command; review new selected programs before interpreting their results as method-compliant.
+
+The 60-mutation follow-up continues all 27 compact classification searches from 10 and all 9 diffusion searches from 20, using seeds 0/1/2 and an additional $40 inclusive API cap. It requires the original full archive, not just endpoint weights:
+
+```bash
+python run.py --workspace /path/to/continuations resume --archive /path/to/original-study --cap 40
+python run.py --workspace /path/to/continuations status
+```
+
+Four background workers share two GPUs and a locked ledger retaining historical spending. Candidate pools and adapter state resume through native GEPA0.1.4; its sampler RNG restarts from the experiment seed. Observational loss logs record full training and development metrics after each mutation. All selections must finish and pass source review before final evaluation. Existing test results are already known, so this is an explicitly declared follow-up study.
 
 Reported metrics are unchanged. Historical receipts and result paths refer to the [original complete snapshot](https://github.com/devichand579/gepa_wsp/tree/5b4c4bf50725d250f38a0e309833abbc46083373), which preserves intermediate weights, generated programs and the full recorded protocol. The current checkout contains only endpoint weights; their paths and hashes are in [the manifest](results/manifest.json). Refactored source is a final implementation, not the byte-identical historical source freeze. Credentials and full raw datasets are excluded; the blog includes the first 24 held-out examples per classification task, with cached one-shot/GEPA/Adam predictions.
