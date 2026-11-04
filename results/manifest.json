@@ -582,6 +582,11 @@
       "sha256": "f4996540cfb16b44accdb328f04259b4f45df373441acd88c16a706c0678fc81",
       "original_path": null,
       "note": "Post-study illustration from existing frozen prediction caches; fixed first 24 examples per task."
+    },
+    "results/loss_curves.json": {
+      "sha256": "fcfd04ea8b5b34850da34f8cf86ebcd1dc3daa50ded1db5a39f9a4228705181c",
+      "original_path": null,
+      "note": "Recorded development losses, unchanged frozen-prefix selections and Adam histories."
     }
   },
   "checkpoints": [

@@ -32,6 +32,16 @@ def main():
             assert page.locator('.model-card').count() == 3
         page.locator('#show-seeds').uncheck()
         assert page.locator('#budget-chart svg').count() == 1
+        for task in ['mnist', 'fashion', 'sst2', 'diffusion']:
+            page.locator(f'[data-loss-task="{task}"]').click()
+            page.select_option('#loss-view', 'matched')
+            assert page.locator('#loss-image').evaluate('(i)=>i.complete && i.naturalWidth>0')
+            if task != 'diffusion':
+                page.select_option('#loss-view', 'budget')
+                assert '60' in page.locator('#loss-context').inner_text()
+            else:
+                assert page.locator('#loss-view option[value="budget"]').evaluate('(option)=>option.disabled')
+            page.locator('#losses').screenshot(path=str(out/f'desktop-losses-{task}.png'))
         for task in ['mnist', 'fashion', 'sst2']:
             page.locator(f'[data-prediction-task="{task}"]').click()
             expected_count = 4 if task == 'sst2' else 8
@@ -78,6 +88,7 @@ def main():
                 page.screenshot(path=str(out/'mobile-hero.png'))
                 page.locator('#results').screenshot(path=str(out/'mobile-budget.png'))
                 page.locator('#diffusion').screenshot(path=str(out/'mobile-diffusion.png'))
+                page.locator('#losses').screenshot(path=str(out/'mobile-losses.png'))
                 for task in ['mnist', 'fashion', 'sst2']:
                     page.locator(f'[data-prediction-task="{task}"]').click()
                     page.locator('#predictions').screenshot(path=str(out/f'mobile-predictions-{task}.png'))

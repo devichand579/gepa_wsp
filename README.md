@@ -2,7 +2,7 @@
 
 Final code and results: **45 runs, 3 LLMs, seeds 0/1/2, 4 network tasks, $45.82 API cost**.
 
-**[Visual blog](blog/index.html)** · [Results](results/results.json) · [CSV](results/summary.csv) · [Prediction examples](results/predictions.json)
+**[Visual blog](blog/index.html)** · [Results](results/results.json) · [CSV](results/summary.csv) · [Prediction examples](results/predictions.json) · [Loss curves](results/loss_curves.json)
 
 The loop improves one-shot statistical weight programs, but does not generally replace Adam. Closed-form fits and training feedback are allowed; parameter-gradient updates are excluded. Text results often use bag-of-words constructions; diffusion remains weak. Full findings and limitations are in the blog.
 

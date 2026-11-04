@@ -68,6 +68,25 @@ def main():
             for method in ['one_shot', 'gepa', 'adam']:
                 predictions = condition[method]['predictions']
                 assert len(predictions) == 24 and all(0 <= v < len(section['labels']) for v in predictions)
+    losses = read('results/loss_curves.json')
+    script = (ROOT/'blog/losses.js').read_text()
+    assert json.loads(script.removeprefix('window.LOSSES = ').removesuffix(';\n')) == losses
+    assert losses['split'] == 'selection' and losses['n_examples'] == 1000
+    assert len(losses['jobs']) == 45 and len(losses['baselines']) == 12
+    assert sum(len(j['points']) for j in losses['jobs']) == 162
+    for job in losses['jobs']:
+        task, model, seed = job['task'], job['model'], job['seed']
+        key = f'deepseek60_{task}_{seed}' if job['group'] == 'budget' else f'{model}_{task}_{seed}'
+        metric = 'mse' if task == 'diffusion' else 'cross_entropy'
+        for point in job['points']:
+            frozen = selections[key][str(point['budget'])]
+            assert point['loss'] == frozen['selection'][metric]
+            assert point['weights_sha256'] == frozen['weights_sha256']
+            assert math.isfinite(point['loss']) and point['loss'] > 0
+    for baseline in losses['baselines'].values():
+        selected = next(p for p in baseline['points'] if p['x'] == baseline['selected_x'])
+        assert selected['loss'] == baseline['selected_loss']
+        assert all(math.isfinite(p['loss']) and p['loss'] > 0 for p in baseline['points'])
     for target in re.findall(r'(?:href|src)="([^"#]+)"', page):
         if not target.startswith(('http:', 'https:')):
             assert (ROOT/'blog'/target.split('#')[0]).exists(), target

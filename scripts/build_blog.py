@@ -13,6 +13,88 @@ BLOG = ROOT / "blog"
 NAMES = {"mnist": "MNIST", "fashion": "Fashion-MNIST", "sst2": "SST-2", "diffusion": "MNIST diffusion"}
 
 
+def extract_losses(archive):
+    result = json.loads((ROOT/'results/results.json').read_text())
+    jobs, baselines = {}, {}
+    for row in result['classification']+result['diffusion']:
+        key = '/'.join(str(row[k]) for k in ['group', 'task', 'model', 'seed'])
+        folder = (archive/row['weights']).parent.parent
+        metadata = json.loads((folder/'prefixes'/f"budget{row['budget']:03d}.json").read_text())
+        metric = 'mse' if row['task'] == 'diffusion' else 'cross_entropy'
+        job = jobs.setdefault(key, {k:row[k] for k in ['group', 'task', 'model', 'seed']})
+        job.setdefault('points', []).append(dict(budget=row['budget'], loss=metadata['selection'][metric], score=metadata['selection']['score'], weights_sha256=metadata['weights_sha256']))
+        baseline_key = f"{row['task']}/{row['seed']}"
+        if baseline_key not in baselines:
+            path = archive/f"diffusion_runs/baselines/seed{row['seed']}/adam_result.json" if row['task'] == 'diffusion' else archive/f"rich_runs/rich_main/{row['task']}/seed{row['seed']}/adam_result.json"
+            adam = json.loads(path.read_text())
+            axis = 'step' if row['task'] == 'diffusion' else 'epoch'
+            lr = adam['best']['lr']
+            baselines[baseline_key] = dict(task=row['task'], seed=row['seed'], lr=lr, axis=axis,
+                selected_x=adam['best'][axis], selected_loss=adam['best'][metric],
+                points=[dict(x=r[axis], loss=r[metric]) for r in adam['history'] if r['lr'] == lr], source_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+    payload = dict(split='selection', n_examples=1000, scope='Existing declared frozen GEPA budget prefixes and Adam development histories. No training, inference, final-test access or API calls.',
+                   selection='Classification checkpoint selection uses the recorded composite score, not minimum cross-entropy. Diffusion selection minimizes MSE. Adam shows each seed’s selected-learning-rate trial, not all hyperparameter trials.',
+                   jobs=list(jobs.values()), baselines=baselines)
+    exported = ROOT/'results/loss_curves.json'
+    exported.write_text(json.dumps(payload, separators=(',', ':'))+'\n')
+    manifest_path = ROOT/'results/manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    manifest['files']['results/loss_curves.json'] = dict(sha256=hashlib.sha256(exported.read_bytes()).hexdigest(), original_path=None, note='Recorded development losses, unchanged frozen-prefix selections and Adam histories.')
+    manifest_path.write_text(json.dumps(manifest, indent=2)+'\n')
+    plot_losses(payload)
+
+
+def plot_losses(data):
+    import numpy as np
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    colors = dict(deepseek='#205c4b', minimax='#b65337', nemotron='#5e738d')
+    names = dict(deepseek='DeepSeek', minimax='MiniMax', nemotron='Nemotron')
+    plt.rcParams.update({'font.size':9, 'axes.spines.top':False, 'axes.spines.right':False, 'axes.labelcolor':'#24332e', 'text.color':'#24332e', 'axes.edgecolor':'#a6ad9f'})
+    for task, view in [(t, v) for t in ['mnist', 'fashion', 'sst2'] for v in ['matched', 'budget']]+[('diffusion', 'matched')]:
+        group = 'diffusion' if task == 'diffusion' else 'models' if view == 'matched' else 'budget'
+        selected = [j for j in data['jobs'] if j['task'] == task and j['group'] == group]
+        fig, axes = plt.subplots(1, 2, figsize=(11.7, 4.1), sharey=True)
+        positives = []
+        for model in sorted({j['model'] for j in selected}):
+            rows = sorted([j for j in selected if j['model'] == model], key=lambda j:j['seed'])
+            assert [r['seed'] for r in rows] == [0, 1, 2]
+            points = [sorted(r['points'], key=lambda p:p['budget']) for r in rows]
+            x = np.array([p['budget'] for p in points[0]])
+            values = np.array([[p['loss'] for p in row] for row in points])
+            positives.extend(values.ravel().tolist())
+            avg = values.mean(0)
+            axes[0].plot(x, avg, 'o-', color=colors[model], label=names[model], lw=1.8, ms=4)
+            for y in values:
+                axes[0].scatter(x, y, color=colors[model], s=8, alpha=.35)
+        for seed, color in enumerate(['#25453e', '#647d6b', '#a1997c']):
+            baseline = data['baselines'][f'{task}/{seed}']
+            x = [p['x'] for p in baseline['points']]
+            y = [p['loss'] for p in baseline['points']]
+            positives.extend(y)
+            axes[1].plot(x, y, color=color, lw=1.6, label=f"Seed {seed}, lr={baseline['lr']:g}")
+            axes[1].scatter([baseline['selected_x']], [baseline['selected_loss']], marker='*', s=90, color=color, edgecolors='white', linewidths=.5, zorder=4)
+        assert min(positives) > 0
+        lo, hi = min(positives)*.75, max(positives)*1.3
+        for ax in axes:
+            ax.set_yscale('log'); ax.set_ylim(lo, hi)
+            ax.grid(True, which='major', alpha=.22)
+            ax.legend(fontsize=8, frameon=False)
+        axes[0].set_title('GEPA: selected budget checkpoints', loc='left', fontsize=11)
+        axes[0].set_xlabel('Mutation requests after one-shot construction')
+        axes[0].set_xticks(sorted({p['budget'] for j in selected for p in j['points']}))
+        axes[0].set_ylabel('Development MSE (log scale)' if task == 'diffusion' else 'Development cross-entropy (log scale)')
+        axes[1].set_title('Adam: development-selected learning rate per seed', loc='left', fontsize=11)
+        axes[1].set_xlabel('Optimizer steps within selected-LR trial' if task == 'diffusion' else 'Epoch within selected-LR trial')
+        label = 'matched compact prompts' if view == 'matched' else 'original-display DeepSeek budget study'
+        fig.suptitle(f'{NAMES[task]} · {label} · same 1,000-example development pool', fontsize=12, y=.99)
+        fig.text(.5, .015, 'GEPA: means, faint dots = individual seeds. Adam: stars mark selected checkpoints. Native x-axes differ; this is not a compute-matched comparison.', ha='center', fontsize=8)
+        fig.tight_layout(rect=(0, .055, 1, .95))
+        fig.savefig(BLOG/'assets'/f'loss_{task}_{view}.png', dpi=170, facecolor='white')
+        plt.close(fig)
+
+
 def extract_predictions(archive):
     """Export the first 24 examples using existing prediction caches, never inference."""
     import numpy as np
@@ -80,14 +162,19 @@ def extract_predictions(archive):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--predictions-from', type=Path, help='Optional original archive: export cached classification examples without inference')
+    parser.add_argument('--losses-from', type=Path, help='Optional original archive: export recorded development loss histories and plots')
     args = parser.parse_args()
     if args.predictions_from:
         extract_predictions(args.predictions_from)
+    if args.losses_from:
+        extract_losses(args.losses_from)
     data = json.loads((ROOT / "results/results.json").read_text())
     BLOG.mkdir(exist_ok=True)
     (BLOG / "data.js").write_text("window.STUDY = " + json.dumps(data, separators=(",", ":")) + ";\n")
     examples = (ROOT/'results/predictions.json').read_text().strip()
     (BLOG/'predictions.js').write_text('window.PREDICTIONS = '+examples+';\n')
+    losses = (ROOT/'results/loss_curves.json').read_text().strip()
+    (BLOG/'losses.js').write_text('window.LOSSES = '+losses+';\n')
     rows = []
     for row in data["classification_summary"] + data["diffusion_summary"]:
         diffusion = row["group"] == "diffusion"

@@ -13,6 +13,7 @@
   const adam = task => mean(D.baselines.filter(r=>r.task===task).map(r=>r.accuracy));
   let budgetTask="mnist", modelTask="mnist", diffModel="deepseek";
   let predictionTask="mnist", predictionPage=0;
+  let lossTask='mnist';
   const budgets=[0,5,10,30,60];
 
   function wireButtons(attribute, callback) {
@@ -128,6 +129,31 @@
     $('prediction-count').textContent=selected.length?`${offset+1}–${Math.min(offset+size,selected.length)} of ${selected.length}${filter==='all'?' fixed examples':' matching examples (within 24)'}`:'0 matching examples (within 24)';
   }
 
+  function drawLosses() {
+    const diffusion=lossTask==='diffusion';
+    const original=$('loss-view').querySelector('option[value="budget"]');
+    original.disabled=diffusion;
+    if(diffusion)$('loss-view').value='matched';
+    const view=$('loss-view').value;
+    const group=diffusion?'diffusion':view==='matched'?'models':'budget';
+    const rows=window.LOSSES.jobs.filter(r=>r.task===lossTask&&r.group===group);
+    const budgets=rows[0].points.map(p=>p.budget).sort((a,b)=>a-b);
+    const file=`loss_${lossTask}_${view}.png`;
+    const asset=window.BLOG_ASSETS?.[file]||'assets/'+file;
+    $('loss-image').src=asset;
+    $('loss-image').alt=`${names[lossTask]||'MNIST diffusion'} development loss: GEPA checkpoints ${budgets.join(', ')} mutation requests, alongside three Adam selected-learning-rate histories; separate native x-axes.`;
+    $('loss-download').href=asset;
+    $('loss-download').setAttribute('download',file);
+    $('loss-context').textContent=(diffusion?'Diffusion, all three LLMs':view==='matched'?'Matched compact-prompt classification, all three LLMs':'Original-display DeepSeek classification')+` · recorded mutation budgets ${budgets.join(' / ')} · all three seeds.`;
+    const metric=diffusion?'MSE':'cross-entropy';
+    const ends=[...new Set(rows.map(r=>r.model))].map(model=>{
+      const values=rows.filter(r=>r.model===model).map(r=>r.points.reduce((a,b)=>a.budget>b.budget?a:b).loss);
+      return `${names[model]} ${mean(values).toFixed(4)}`;
+    });
+    const baselines=[0,1,2].map(seed=>window.LOSSES.baselines[`${lossTask}/${seed}`].selected_loss);
+    $('loss-summary').textContent=`Endpoint mean development ${metric}: ${ends.join(' · ')} · Adam selected checkpoints ${mean(baselines).toFixed(4)}.`;
+  }
+
   function reliability() {
     const groups=[["budget","60-call classification"],["models","Matched 10-call classification"],["diffusion","20-call diffusion"]];
     $("reliability-bars").innerHTML=groups.map(([group,name])=>{
@@ -157,6 +183,8 @@
   wireButtons("data-model-task",task=>{modelTask=task;drawModels();});
   wireButtons("data-diff-model",model=>{diffModel=model;drawSamples();});
   wireButtons('data-prediction-task',task=>{predictionTask=task;predictionPage=0;drawPredictions();});
+  wireButtons('data-loss-task',task=>{lossTask=task;drawLosses();});
+  $('loss-view').addEventListener('change',drawLosses);
   ['prediction-condition','prediction-seed','prediction-filter'].forEach(id=>$(id).addEventListener('change',()=>{predictionPage=0;drawPredictions();}));
   $('prediction-prev').addEventListener('click',()=>{predictionPage--;drawPredictions();});
   $('prediction-next').addEventListener('click',()=>{predictionPage++;drawPredictions();});
@@ -168,5 +196,5 @@
     const total=document.documentElement.scrollHeight-window.innerHeight;
     $("reading-progress").style.width=(total>0?100*window.scrollY/total:0)+"%";
   },{passive:true});
-  drawBudget();drawModels();drawDiffusion();drawSamples();drawPredictions();reliability();filterTable();
+  drawBudget();drawModels();drawDiffusion();drawSamples();drawPredictions();drawLosses();reliability();filterTable();
 })();
