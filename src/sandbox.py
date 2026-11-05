@@ -44,7 +44,8 @@ def parameter_gradient_reasons(tree):
    if value is None:continue
    refs=names(value)
    for target in targets:
-    for key in roots(target):deps.setdefault(key,set()).update(refs)
+    indexed=names(target.slice) if isinstance(target,ast.Subscript) else set()
+    for key in roots(target):deps.setdefault(key,set()).update(refs|indexed)
    if isinstance(value,ast.Subscript) and 'w' in roots(value):
     for target in targets:aliases.update(roots(target))
    if isinstance(value,ast.Call) and isinstance(value.func,ast.Attribute) and value.func.attr=='gradient' and value.args and 'f' in names(value.args[0]) and 'w' not in names(value.args[0]):
@@ -53,6 +54,18 @@ def parameter_gradient_reasons(tree):
  for node in ast.walk(tree):
   if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr in {'append','extend','insert'}:
    for key in roots(node.func.value):deps.setdefault(key,set()).update(set().union(*(names(arg) for arg in node.args)))
+ value_deps={key:set(refs) for key,refs in deps.items()}
+ # Derivatives can affect a parameter through a branch (e.g. bisection),
+ # even when the derivative value is never assigned to the parameter.
+ for node in ast.walk(tree):
+  if isinstance(node,(ast.If,ast.While)):
+   refs=names(node.test)
+   for statement in node.body+node.orelse:
+    for child in ast.walk(statement):
+     if isinstance(child,(ast.Assign,ast.AnnAssign,ast.AugAssign)):
+      targets=child.targets if isinstance(child,ast.Assign) else [child.target]
+      for target in targets:
+       for key in roots(target):deps.setdefault(key,set()).update(refs)
  categorical_hessian=any(isinstance(node,ast.BinOp) and isinstance(node.op,ast.Sub) and isinstance(node.left,ast.Call) and ast.unparse(node.left.func) in {'np.diag','np.diagflat','numpy.diag'} and isinstance(node.right,ast.Call) and ast.unparse(node.right.func) in {'np.outer','numpy.outer'} for node in ast.walk(tree))
  seeds={name for name in set(deps)|set().union(*deps.values()) if (any(term in name.lower() for term in ['grad','hess','newton','deriv']) or name.lower() in {'dce','dce0','d2ce','d2ce0','g_w','g_b','gw','gb'} or (categorical_hessian and name.lower()=='g')) and name not in spatial}
  def ancestry(name):
@@ -68,6 +81,9 @@ def parameter_gradient_reasons(tree):
   if extra<=tainted:break
   tainted.update(extra)
  affected=set(sinks)&tainted
+ # Keep control dependencies out of residual-expression recognition: a
+ # training-error fallback condition does not turn a closed-form fit into SGD.
+ deps=value_deps
  # Detect residual-feature correlation steps even when no derivative name is used.
  # A closed-form solve is a barrier for this second screen, not for named gradients.
  def outside_solves(node):
@@ -85,6 +101,24 @@ def parameter_gradient_reasons(tree):
   refs=references(node)
   return bool(refs&{'$prediction','$probs','$error','$errors','$residual','$residuals'}) and '$y' in refs
  def features(node):return bool(references(node)&{'$features','$x','w'})
+ # A locally computed softmax/sigmoid residual can be a CE gradient, too.
+ # Track exponential outputs to normalized probabilities, including helpers.
+ exponentials=set()
+ for node in ast.walk(tree):
+  if isinstance(node,(ast.Assign,ast.AnnAssign,ast.AugAssign)) and node.value is not None:
+   if any(isinstance(c,ast.Call) and isinstance(c.func,ast.Attribute) and c.func.attr=='exp' for c in ast.walk(node.value)):
+    for target in (node.targets if isinstance(node,ast.Assign) else [node.target]):exponentials.update(roots(target))
+ probabilities=set()
+ for node in ast.walk(tree):
+  if isinstance(node,(ast.Assign,ast.AnnAssign,ast.AugAssign)) and node.value is not None:
+   if any(isinstance(c,ast.BinOp) and isinstance(c.op,ast.Div) and references(c)&exponentials for c in ast.walk(node.value)):
+    for target in (node.targets if isinstance(node,ast.Assign) else [node.target]):probabilities.update(roots(target))
+ def probability_residual(node):
+  for child in ast.walk(node):
+   if isinstance(child,ast.BinOp) and isinstance(child.op,ast.Sub):
+    left,right=references(child.left),references(child.right)
+    if (left&probabilities and '$y' in right) or (right&probabilities and '$y' in left):return True
+  return False
  correlations=set();unsolved={}
  for node in ast.walk(tree):
   if isinstance(node,ast.FunctionDef):
@@ -95,6 +129,7 @@ def parameter_gradient_reasons(tree):
   keys=set().union(*(roots(target) for target in targets))
   for key in keys:unsolved.setdefault(key,set()).update(unsolved_names(node.value))
   for item in outside_solves(node.value):
+   if isinstance(item,ast.Call) and isinstance(item.func,ast.Attribute) and item.func.attr in {'sum','mean'} and probability_residual(item):correlations.update(keys)
    pairs=[]
    if isinstance(item,ast.BinOp) and isinstance(item.op,(ast.Mult,ast.MatMult)):pairs=[(item.left,item.right)]
    if isinstance(item,ast.Call) and isinstance(item.func,ast.Attribute) and item.func.attr in {'dot','matmul','einsum','tensordot','multiply'}:

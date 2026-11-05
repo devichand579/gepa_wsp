@@ -55,6 +55,11 @@ class HarnessTests(unittest.TestCase):
         screen = ns['parameter_gradient_reasons']
         self.assertTrue(screen(ast.parse("def edit(w,f):\n X=f['features']; e=f['prediction']-f['y']; w['weight']-=.01*(X.T@e); return w")))
         self.assertFalse(screen(ast.parse("def edit(w,f):\n X=f['features']; w['weight']=np.linalg.solve(X.T@X+np.eye(X.shape[1]),X.T@f['y']); return w")))
+        # Derivative-guided bisection and a locally computed softmax bias
+        # gradient must be rejected, including labels assigned by indexing.
+        self.assertTrue(screen(ast.parse("def edit(w,f):\n logits=f['logits']; y=f['y']\n def ce_deriv(c):\n  p=np.exp(c*logits); p/=p.sum(1,keepdims=True); return np.mean(np.sum(p*logits,1)-logits[np.arange(len(y)),y])\n lo,hi=.01,100.\n for _ in range(60):\n  mid=(lo+hi)/2\n  if ce_deriv(mid)>0: hi=mid\n  else: lo=mid\n w['weight']*=((lo+hi)/2); return w")))
+        self.assertTrue(screen(ast.parse("def edit(w,f):\n y=f['y']; Y=np.zeros((len(y),10)); Y[np.arange(len(y)),y]=1\n z=f['features']@w['weight'].T; e=np.exp(z); p=e/e.sum(1,keepdims=True)\n w['bias']+=np.mean(Y-p,axis=0); return w")))
+        self.assertFalse(screen(ast.parse("def edit(w,f):\n X=f['features']; y=f['y']; pred=X@w['weight'].T\n w['bias']=np.mean(y-pred,axis=0); return w")))
         state = core.initial('mnist', 0)
         features = np.zeros((4, 128), np.float32)
         features[:2, 0] = 1
