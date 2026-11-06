@@ -26,6 +26,25 @@ Image scores use the official 10,000-example test splits. SST-2 uses its 872-exa
 
 Adam denoising MSE: **0.09161**. The best LLM endpoint is still 2.79× this error. Generation uses 128 fixed draws per seed, showing the first 64 without curation. No validated perceptual metric was computed; improved MSE alone does not establish useful generation.
 
+## Validation protocol and loss curves
+
+The displayed curves use the fixed 1,000-example validation pool, called `selection` or `development` in the saved files. They are not final-test loss curves. Every task includes DeepSeek, MiniMax and Nemotron through 60 mutations, each with seeds 0/1/2, plus three Adam seed histories. Classification has 53 measured points per LLM/seed (0, 5, 10, then every mutation 11–60); diffusion has 44 (0, 5, 10, 20, then every mutation 21–60). Missing earlier intermediate losses are not reconstructed. GEPA curves track the selected candidate rather than every proposal; rejected proposals can leave the loss flat. Adam curves display each seed's complete winning-learning-rate history, with a star at its selected checkpoint. Their native progress axes are different and do not match computation.
+
+| Task | Training feedback | Validation used for selection | Final scoring split |
+|---|---:|---:|---|
+| MNIST | 2,000 official-training images | 1,000 other official-training images | 10,000 official test images |
+| Fashion-MNIST | 2,000 official-training images | 1,000 other official-training images | 10,000 official test images |
+| SST-2 | 4,000 official-training reviews | 1,000 other official-training reviews | 872 official labeled validation reviews |
+| MNIST diffusion | 2,000 clean training images | 1,000 other clean training images | 10,000 official MNIST test images with fresh noise |
+
+Training and validation IDs are disjoint within each seed. Image training/validation pools have 200/100 examples per class; SST-2 has 2,000/500 per class. These fixed pools are shared by all LLM conditions and Adam within the seed. Validation examples and traces do not enter reflection or generated programs; validation scores influence GEPA's candidate and parent selection. Repeated use can overfit this pool. Seeds reuse the same final examples, not independent final datasets.
+
+Adam classification tests learning rates 1e−4, 1e−3 and 1e−2, up to 50 epochs per trial, batch size 128 and patience 10. It selects by the same composite validation score as GEPA, with lower cross-entropy breaking ties; the selected checkpoint need not minimize cross-entropy. Adam diffusion runs 1,000 steps at each of 1e−3 and 3e−4, batch size 64, validates every 100 steps and selects the lowest validation MSE. All tuning trials consume compute even though the figures show only the winning learning-rate histories.
+
+The SST-2 vocabulary is fitted only on feedback reviews (2,000 tokens including PAD/UNK, maximum length 64). Held-out review inputs were inspected for duplicate checks during preparation; normalized and encoded cross-split overlap counts were zero. Final labels and predictions did not guide fitting or checkpoint selection. Diffusion reuses the MNIST split IDs and fixed validation noise at seed 82,000 + experiment seed; final noise uses 83,000 + seed. Adam refreshes training noise, whereas LLM programs use a fixed feedback noise bank.
+
+Every declared checkpoint and selected source was frozen and reviewed before its corresponding final evaluation. Earlier final results nevertheless informed the decision to extend to 60 mutations. Reusing that final split makes the follow-up exploratory rather than confirmatory; all declared prefixes are reported instead of selecting a prefix by final score.
+
 ## What the method allows
 
 Generated NumPy programs receive full permitted training arrays, weights and forward diagnostics. Training-only statistics, direct ridge/LDA/least-squares solves, PCA, augmentation, internal forward passes and finite candidate calibration are allowed. Autograd, manual parameter-loss gradients, numerical parameter gradients and Newton/Hessian parameter updates are excluded. Consequently these results measure reflection and selection around data-fitting programs, not coefficient choice without numerical fitting.

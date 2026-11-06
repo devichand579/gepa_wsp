@@ -141,17 +141,19 @@
     const file=`loss_${lossTask}_${view}.png`;
     const asset=window.BLOG_ASSETS?.[file]||'assets/'+file;
     $('loss-image').src=asset;
-    $('loss-image').alt=`${names[lossTask]||'MNIST diffusion'} development loss: GEPA checkpoints ${budgets.join(', ')} mutation requests, alongside three Adam selected-learning-rate histories; separate native x-axes.`;
+    const continuation=rows.every(r=>r.observations?.length);
+    const observations=rows[0].observations?.length;
+    $('loss-image').alt=`${names[lossTask]||'MNIST diffusion'} validation loss: ${continuation?'all three LLMs through 60 mutations, including per-mutation continuation observations':'original DeepSeek frozen prefixes'}, alongside three Adam selected-learning-rate histories; separate native x-axes.`;
     $('loss-download').href=asset;
     $('loss-download').setAttribute('download',file);
-    $('loss-context').textContent=(diffusion?'Diffusion, all three LLMs':view==='matched'?'Matched compact-prompt classification, all three LLMs':'Original-display DeepSeek classification')+` · recorded mutation budgets ${budgets.join(' / ')} · all three seeds.`;
+    $('loss-context').textContent=(diffusion?'Diffusion, all three LLMs':view==='matched'?'Matched compact-prompt classification, all three LLMs':'Original-display DeepSeek classification')+(continuation?` · ${observations} measured points per LLM and seed, including every mutation ${diffusion?'21':'11'}–60`:` · frozen mutation prefixes ${budgets.join(' / ')}`)+' · seeds 0/1/2 · Adam: three seed curves · validation only.';
     const metric=diffusion?'MSE':'cross-entropy';
     const ends=[...new Set(rows.map(r=>r.model))].map(model=>{
       const values=rows.filter(r=>r.model===model).map(r=>r.points.reduce((a,b)=>a.budget>b.budget?a:b).loss);
       return `${names[model]} ${mean(values).toFixed(4)}`;
     });
     const baselines=[0,1,2].map(seed=>window.LOSSES.baselines[`${lossTask}/${seed}`].selected_loss);
-    $('loss-summary').textContent=`Endpoint mean development ${metric}: ${ends.join(' · ')} · Adam selected checkpoints ${mean(baselines).toFixed(4)}.`;
+    $('loss-summary').textContent=`Endpoint mean validation ${metric}: ${ends.join(' · ')} · Adam selected checkpoints ${mean(baselines).toFixed(4)}.`;
   }
 
   function reliability() {

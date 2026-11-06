@@ -93,14 +93,14 @@ def plot_losses(data):
             ax.set_yscale('log'); ax.set_ylim(lo, hi)
             ax.grid(True, which='major', alpha=.22)
             ax.legend(fontsize=8, frameon=False)
-        axes[0].set_title('GEPA: development-selected candidates', loc='left', fontsize=11)
+        axes[0].set_title('GEPA: validation-selected candidates', loc='left', fontsize=11)
         axes[0].set_xlabel('Mutation requests after one-shot construction')
         axes[0].set_xticks(sorted({p['budget'] for j in selected for p in j['points']}))
-        axes[0].set_ylabel('Development MSE (log scale)' if task == 'diffusion' else 'Development cross-entropy (log scale)')
-        axes[1].set_title('Adam: development-selected learning rate per seed', loc='left', fontsize=11)
+        axes[0].set_ylabel('Validation MSE (log scale)' if task == 'diffusion' else 'Validation cross-entropy (log scale)')
+        axes[1].set_title('Adam: validation-selected learning rate per seed', loc='left', fontsize=11)
         axes[1].set_xlabel('Optimizer steps within selected-LR trial' if task == 'diffusion' else 'Epoch within selected-LR trial')
         label = 'matched compact prompts' if view == 'matched' else 'original-display DeepSeek budget study'
-        fig.suptitle(f'{NAMES[task]} · {label} · same 1,000-example development pool', fontsize=12, y=.99)
+        fig.suptitle(f'{NAMES[task]} · {label} · same 1,000-example validation pool', fontsize=12, y=.99)
         fig.text(.5, .015, 'GEPA: means, faint dots = individual seeds. Adam: stars mark selected checkpoints. Native x-axes differ; this is not a compute-matched comparison.', ha='center', fontsize=8)
         fig.tight_layout(rect=(0, .055, 1, .95))
         fig.savefig(BLOG/'assets'/f'loss_{task}_{view}.png', dpi=170, facecolor='white')
@@ -195,13 +195,26 @@ def main():
         rows.append('<tr data-group="{group}" data-task="{task}" data-model="{model}"><td>{group}</td><td>{task_name}</td><td>{model}</td><td>{budget}</td><td>{result}</td><td>${cost:.4f}</td></tr>'.format(
             **row, task_name=html.escape(NAMES[row["task"]]), result=result, cost=row["mean_cumulative_api_cost"]))
     template = (ROOT / "scripts/templates/blog.html").read_text()
+    losses = json.loads((ROOT/'results/loss_curves.json').read_text())
+    coverage = []
+    for task in ['mnist', 'fashion', 'sst2', 'diffusion']:
+        jobs = [j for j in losses['jobs'] if j['task'] == task and j['group'] != 'budget']
+        assert {(j['model'], j['seed']) for j in jobs} == {(m, s) for m in ['deepseek', 'minimax', 'nemotron'] for s in [0, 1, 2]}
+        count = {len(j['observations']) for j in jobs}
+        assert len(count) == 1
+        progress = '0 / 5 / 10, then every mutation 11–60' if task != 'diffusion' else '0 / 5 / 10 / 20, then every mutation 21–60'
+        adam = [losses['baselines'][f'{task}/{seed}'] for seed in [0, 1, 2]]
+        endpoints = ' / '.join(str(max(p['x'] for p in b['points'])) for b in adam)
+        axis = 'epochs' if task != 'diffusion' else 'steps'
+        metric = 'cross-entropy' if task != 'diffusion' else 'noise-prediction MSE'
+        coverage.append(f'<tr><td>{NAMES[task]}</td><td>{metric}</td><td>{progress}<br>{next(iter(count))} measured points per LLM and seed</td><td>Three seed curves, ending at {endpoints} {axis}</td></tr>')
     comparisons = []
     for task in ['mnist', 'fashion', 'sst2']:
         adam = sum(r['accuracy'] for r in data['baselines'] if r['task'] == task)/3
         for model in ['deepseek', 'minimax', 'nemotron']:
             cells = {r['budget']:r['accuracy_mean'] for r in data['classification_summary'] if r['group'] == 'models' and r['task'] == task and r['model'] == model}
             comparisons.append(f"<tr><td>{NAMES[task]}</td><td>{model}</td><td>{100*cells[10]:.2f}%</td><td>{100*cells[60]:.2f}%</td><td>{100*(cells[60]-cells[10]):+.2f} pp</td><td>{100*adam:.2f}%</td></tr>")
-    (BLOG / "index.html").write_text(template.replace("<!-- RESULT_ROWS -->", "\n".join(rows)).replace('<!-- FOLLOWUP_ROWS -->', '\n'.join(comparisons)))
+    (BLOG / "index.html").write_text(template.replace("<!-- RESULT_ROWS -->", "\n".join(rows)).replace('<!-- FOLLOWUP_ROWS -->', '\n'.join(comparisons)).replace('<!-- LOSS_COVERAGE_ROWS -->', '\n'.join(coverage)))
     assets = BLOG / "assets"
     assets.mkdir(exist_ok=True)
     for row in data["diffusion"] + [r for r in data["baselines"] if r["task"] == "diffusion"]:

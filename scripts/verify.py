@@ -90,6 +90,21 @@ def main():
     assert losses['split'] == 'selection' and losses['n_examples'] == 1000
     assert len(losses['jobs']) == 45 and len(losses['baselines']) == 12
     assert sum(len(j['points']) for j in losses['jobs']) == 261
+    for task in ['mnist', 'fashion', 'sst2', 'diffusion']:
+        jobs = [j for j in losses['jobs'] if j['task'] == task and j['group'] != 'budget']
+        assert {(j['model'], j['seed']) for j in jobs} == {(m, s) for m in ['deepseek', 'minimax', 'nemotron'] for s in [0, 1, 2]}
+        expected = {0, 5, 10, *range(20, 61)} if task == 'diffusion' else {0, 5, *range(10, 61)}
+        for job in jobs:
+            observed = {p['budget']:p for p in job['observations']}
+            assert set(observed) == expected
+            for point in job['points']:
+                assert math.isclose(point['loss'], observed[point['budget']]['loss'], rel_tol=1e-5, abs_tol=1e-6)
+            for point in observed.values():
+                if point['budget'] >= (20 if task == 'diffusion' else 10):
+                    assert math.isfinite(point['training_loss']) and point['training_loss'] > 0
+        for seed in [0, 1, 2]:
+            baseline = losses['baselines'][f'{task}/{seed}']
+            assert baseline['points'] and baseline['axis'] == ('step' if task == 'diffusion' else 'epoch')
     for job in losses['jobs']:
         task, model, seed = job['task'], job['model'], job['seed']
         metric = 'mse' if task == 'diffusion' else 'cross_entropy'
@@ -102,8 +117,8 @@ def main():
             assert job['observations'][-1]['budget'] == 60
             assert all(math.isfinite(p['loss']) and p['loss'] > 0 for p in job['observations'])
     for baseline in losses['baselines'].values():
-        selected = next(p for p in baseline['points'] if p['x'] == baseline['selected_x'])
-        assert selected['loss'] == baseline['selected_loss']
+        chosen = next(p for p in baseline['points'] if p['x'] == baseline['selected_x'])
+        assert chosen['loss'] == baseline['selected_loss']
         assert all(math.isfinite(p['loss']) and p['loss'] > 0 for p in baseline['points'])
     for target in re.findall(r'(?:href|src)="([^"#]+)"', page):
         if not target.startswith(('http:', 'https:')):
