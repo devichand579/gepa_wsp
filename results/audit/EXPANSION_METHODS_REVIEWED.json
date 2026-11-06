@@ -1,6 +1,0 @@
-{
-  "time": 1793803380.1841161,
-  "audit_sha256": "9ba4faca455e57769ac7c28bcad39bf0794404155a45504e1b49d7de9f753df6",
-  "selected_review_flags": 0,
-  "note": "Provenance verified; every selected source requires a recorded statistical-method decision, including unflagged programs. AST checks alone do not establish complete semantic optimizer absence."
-}

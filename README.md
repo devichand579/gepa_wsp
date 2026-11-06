@@ -9,10 +9,23 @@ The loop improves one-shot statistical weight programs, but does not generally r
 | Path | Purpose |
 |---|---|
 | `run.py` | Prepare data, train Adam, run GEPA, evaluate frozen weights |
-| `src/` | Final models, reflection, sandbox, accounting and continuation runner |
+| `src/` | Models, reflection, sandbox, accounting, and the continuation runner (see below) |
 | `results/` | All metrics, sample arrays, 45 final LLM weights, 12 Adam weights and audit receipts |
 | `blog/` | Offline interactive article |
 | `tests/`, `scripts/` | Checks and article builder |
+
+| File | Role |
+|---|---|
+| `src/core.py` | MNIST and Fashion-MNIST networks, metrics, API budget ledger, response parsing, and the Adam baseline |
+| `src/classification.py` | GEPA loop for image and text classification: feedback packets, `edit(w, f)` proposals, and Pareto search, including one-shot construction |
+| `src/text_model.py` | Fixed SST-2 transformer and its Adam baseline; installs that network into the shared backend |
+| `src/llm.py` | Fireworks client for DeepSeek, MiniMax, and Nemotron: spend reservation, exact-request replay, prompt compaction, and a provider circuit breaker |
+| `src/diffusion.py` | Same GEPA loop for unconditional diffusion; the score is negative mean squared error on epsilon prediction |
+| `src/diffusion_model.py` | 16×16 convolutional DDPM, 32-step cosine schedule, sampling, data preparation from the MNIST splits, and an Adam baseline |
+| `src/sandbox.py` | Isolated worker for `edit(w, f)`: NumPy/math only, CPU and memory limits, and a screen against gradient or residual-feature updates |
+| `src/prepare.py` | Fixed seeds 0/1/2: 2000 feedback and 1000 selection examples for MNIST, Fashion-MNIST, and SST-2, with a feedback-only 2000-token vocabulary |
+| `src/prefixes.py` | Copies the best selection-set checkpoint at each requested mutation budget, using only evaluations finished before the next dispatch |
+| `src/resume.py` | Continues preserved searches to 60 proposals under a shared extra spend cap, then freezes prefixes after source review |
 
 ```bash
 # View the blog, or open blog/index.html directly.
