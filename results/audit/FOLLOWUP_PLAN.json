@@ -1,0 +1,445 @@
+{
+  "time": 1793811512.5475924,
+  "additional_cap": 40,
+  "historical_spending": 45.820999889999946,
+  "historical_calls": 1759,
+  "total_cap": 85.82099988999994,
+  "prices": {
+    "deepseek": [
+      0.3,
+      1.2
+    ],
+    "minimax": [
+      0.15,
+      0.6
+    ],
+    "nemotron": [
+      0.05,
+      0.2
+    ]
+  },
+  "prefixes": [
+    0,
+    5,
+    10,
+    20,
+    30,
+    60
+  ],
+  "source_hashes": {
+    "experiment.py": "d711b468e962d6f87164027bf87ecd14caab69d9de88fdb18695e05efd5375b5",
+    "rich_experiment.py": "ead7040df60a31acb202da6e1175d251a03bcb5d25a7c1e417b25889682b91f2",
+    "rich_worker.py": "64ad5520be7386c10dc0a90c3b4f0010dfa79827c899f2d26b6d98f3ae34cbfa",
+    "text_experiment.py": "89defbe001c472b59c6a2132132ee1347ab97a6dd7d4c8aaff6b0066ba13fd44",
+    "strict_experiment.py": "9542c2937dcf0959863717a2f0ad6414ddd837bdcbc582b8dcc4b63c16e352b1",
+    "tensor_dsl.py": "2ea4f4ce3a4b8c8ef0a9b3871ae1fe673196f2f3fdb03376b167a4ece4fac26c",
+    "tensor_dsl_worker.py": "6d2056688c58bcdca495bebbe6196886274ab2b7785ea8ad62dcb391aeb38fee",
+    "expansion_client.py": "8cb92935651442731e5eb6882a03b6b17e49fd55cf5a8e102ea77b74a23dcd0a",
+    "diffusion_core.py": "b590fae5cd4ae881e01b272347cf1a3a047cd0ec0baad2c178d8d04bd462e288",
+    "diffusion_experiment.py": "238837ace42bea0636e2bb8fa4945143bc0d2d8889ef0012aa3146d713cbec46",
+    "classification_followup.py": "642218bd3b121f5d8ce1acfd6024ab53710a446b19b608aca1cbc66cca88cb70"
+  },
+  "runner_sha256": "bdba788e702f4643a53672e8033022b210dba192e2d9b5f78788704a037bf138",
+  "followup": "Existing final test results are already known. This is a declared follow-up, not a fresh confirmatory held-out study.",
+  "resume": "Native GEPA0.1.4 restores candidate/evaluation/adapter state; library sampler RNG restarts from the experiment seed, so this is not a bit-identical uninterrupted trajectory.",
+  "information_boundary": "Only feedback and selection files are copied. No final-test files, predictions, or prior reports enter reflection. Loss logging is observational; final evaluation requires selection freeze and source review.",
+  "jobs": [
+    {
+      "id": "models_deepseek_mnist_0",
+      "group": "models",
+      "model": "deepseek",
+      "task": "mnist",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/mnist/seed0",
+      "initial_state_sha256": "a00a02630405475ffb05dda289e56d75c8a6f1a309451b5e9ce3a56cea083884"
+    },
+    {
+      "id": "models_minimax_mnist_0",
+      "group": "models",
+      "model": "minimax",
+      "task": "mnist",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/mnist/seed0",
+      "initial_state_sha256": "d36d93dfb3f13233b67c0219c9d4d47705e0cce06697c07e777a2a7db29ed9f0"
+    },
+    {
+      "id": "models_nemotron_mnist_0",
+      "group": "models",
+      "model": "nemotron",
+      "task": "mnist",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/mnist/seed0",
+      "initial_state_sha256": "bd851cc48ace1acdc2236d41026c4b833b141931d0ddf178baea8ecdd2ee66fe"
+    },
+    {
+      "id": "diffusion_deepseek_diffusion_0",
+      "group": "diffusion",
+      "model": "deepseek",
+      "task": "diffusion",
+      "seed": 0,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/models/deepseek/seed0",
+      "initial_state_sha256": "d9d93c67191bf6b4caf41da0e42fac13d1316d24f57a2b93a1ff207bc1b10fff"
+    },
+    {
+      "id": "diffusion_deepseek_diffusion_1",
+      "group": "diffusion",
+      "model": "deepseek",
+      "task": "diffusion",
+      "seed": 1,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/models/deepseek/seed1",
+      "initial_state_sha256": "f92ed0b6fac71440021b0eaf360926d3c9936e2fbfa5b99413d1aa9aba46368d"
+    },
+    {
+      "id": "diffusion_deepseek_diffusion_2",
+      "group": "diffusion",
+      "model": "deepseek",
+      "task": "diffusion",
+      "seed": 2,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/models/deepseek/seed2",
+      "initial_state_sha256": "74f929b0a27f5808ba2ce9dd7847bb8320a72aff03c8feb53072b6c2088145de"
+    },
+    {
+      "id": "models_deepseek_fashion_0",
+      "group": "models",
+      "model": "deepseek",
+      "task": "fashion",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/fashion/seed0",
+      "initial_state_sha256": "840da073680b90c9d119cc77c4082309deba51e12f09037e03d4d52dcb992933"
+    },
+    {
+      "id": "models_deepseek_fashion_1",
+      "group": "models",
+      "model": "deepseek",
+      "task": "fashion",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/fashion/seed1",
+      "initial_state_sha256": "1069196bcaad2cd2bb395cd12ca652acbc6f9ccdb51e29bc04468158cb166b91"
+    },
+    {
+      "id": "models_deepseek_fashion_2",
+      "group": "models",
+      "model": "deepseek",
+      "task": "fashion",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/fashion/seed2",
+      "initial_state_sha256": "53247372835e421e7e7029283978116d6f51c54134fbbe032f3ae164be013137"
+    },
+    {
+      "id": "models_deepseek_mnist_1",
+      "group": "models",
+      "model": "deepseek",
+      "task": "mnist",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/mnist/seed1",
+      "initial_state_sha256": "f3b1e442dbe4989db6d55a2c1f583d1adabc6014e148a04ea03bfe1f73d46eff"
+    },
+    {
+      "id": "models_deepseek_mnist_2",
+      "group": "models",
+      "model": "deepseek",
+      "task": "mnist",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/mnist/seed2",
+      "initial_state_sha256": "defd76c8a0a6fdc3e99c4a9d43df1b43e90f7c203db4d34155ed422e580a2f40"
+    },
+    {
+      "id": "models_deepseek_sst2_0",
+      "group": "models",
+      "model": "deepseek",
+      "task": "sst2",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/sst2/seed0",
+      "initial_state_sha256": "f1e5da8746be7dbb745b1589dcb32c019ffefb26111e86186e3c9c65ac2169dc"
+    },
+    {
+      "id": "models_deepseek_sst2_1",
+      "group": "models",
+      "model": "deepseek",
+      "task": "sst2",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/sst2/seed1",
+      "initial_state_sha256": "cf3a8e125c924920593fba19c182a08e836aceb88c74a65243534e3908f66ee8"
+    },
+    {
+      "id": "models_deepseek_sst2_2",
+      "group": "models",
+      "model": "deepseek",
+      "task": "sst2",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/deepseek10/sst2/seed2",
+      "initial_state_sha256": "99893624f4e7065c9bdf377c87fd7a82b1da7c217467abfa312feaee7831af3d"
+    },
+    {
+      "id": "diffusion_minimax_diffusion_0",
+      "group": "diffusion",
+      "model": "minimax",
+      "task": "diffusion",
+      "seed": 0,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/models/minimax/seed0",
+      "initial_state_sha256": "e331c7ddb80ef93d1a63dcbe10e22c19389441821c364f0ef7f81ece471a617a"
+    },
+    {
+      "id": "diffusion_minimax_diffusion_1",
+      "group": "diffusion",
+      "model": "minimax",
+      "task": "diffusion",
+      "seed": 1,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/models/minimax/seed1",
+      "initial_state_sha256": "517ed1827187845984e1bdcdca4c07995509036c25ac7c30fefe98a6297bdcbf"
+    },
+    {
+      "id": "diffusion_minimax_diffusion_2",
+      "group": "diffusion",
+      "model": "minimax",
+      "task": "diffusion",
+      "seed": 2,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/models/minimax/seed2",
+      "initial_state_sha256": "a5b604e20bf8a0c7962b9bd6b2bb15054aa54280d7d6dab300df4579f691e29b"
+    },
+    {
+      "id": "models_minimax_fashion_0",
+      "group": "models",
+      "model": "minimax",
+      "task": "fashion",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/fashion/seed0",
+      "initial_state_sha256": "048c7ba7251fc5fd646a5c449e00d3c73638427b6cf14a0331be11c1f5ba0a38"
+    },
+    {
+      "id": "models_minimax_fashion_1",
+      "group": "models",
+      "model": "minimax",
+      "task": "fashion",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/fashion/seed1",
+      "initial_state_sha256": "897514a659e2d3f3f4d9d5974b83b90d8a8f940ff1e2da0cfa183c84e21a294d"
+    },
+    {
+      "id": "models_minimax_fashion_2",
+      "group": "models",
+      "model": "minimax",
+      "task": "fashion",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/fashion/seed2",
+      "initial_state_sha256": "45dc75b56ec6123ea45c8fcc1be8d6c50a8599aee7dd77e07145a8e135be44aa"
+    },
+    {
+      "id": "models_minimax_mnist_1",
+      "group": "models",
+      "model": "minimax",
+      "task": "mnist",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/mnist/seed1",
+      "initial_state_sha256": "822829407265c1ca1fea3f981416102328024a530a52825050594d953545c86f"
+    },
+    {
+      "id": "models_minimax_mnist_2",
+      "group": "models",
+      "model": "minimax",
+      "task": "mnist",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/mnist/seed2",
+      "initial_state_sha256": "6a841e83edc8a1ba3d07015cc0abff0c7cf46942119d6d3a0726cbac0e4ac0cf"
+    },
+    {
+      "id": "models_minimax_sst2_0",
+      "group": "models",
+      "model": "minimax",
+      "task": "sst2",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/sst2/seed0",
+      "initial_state_sha256": "3826906da605a24b01b92ed124566e201cac72656c79140f008a8182fb9677f6"
+    },
+    {
+      "id": "models_minimax_sst2_1",
+      "group": "models",
+      "model": "minimax",
+      "task": "sst2",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/sst2/seed1",
+      "initial_state_sha256": "4bc4784d83503f14223f52868d41e8535bc1f87d561222dec6f600def7ddf30c"
+    },
+    {
+      "id": "models_minimax_sst2_2",
+      "group": "models",
+      "model": "minimax",
+      "task": "sst2",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/minimax/sst2/seed2",
+      "initial_state_sha256": "e3875ca96717a63633e069d4db567afd21d4dee7dfe344ab8b75eb1e1de9baa7"
+    },
+    {
+      "id": "diffusion_nemotron_diffusion_0",
+      "group": "diffusion",
+      "model": "nemotron",
+      "task": "diffusion",
+      "seed": 0,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/repaired_v2/models/nemotron/seed0",
+      "initial_state_sha256": "d2f5ff6474023418d5cbaba63abede3503f911240c745a34724e3451806f407e"
+    },
+    {
+      "id": "diffusion_nemotron_diffusion_1",
+      "group": "diffusion",
+      "model": "nemotron",
+      "task": "diffusion",
+      "seed": 1,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/repaired/models/nemotron/seed1",
+      "initial_state_sha256": "1985b316ede570fa87e8ad69cfc5943f370e23a03758042c6039ec4bb8144411"
+    },
+    {
+      "id": "diffusion_nemotron_diffusion_2",
+      "group": "diffusion",
+      "model": "nemotron",
+      "task": "diffusion",
+      "seed": 2,
+      "prior": 20,
+      "budget": 60,
+      "folder": "diffusion_runs/repaired/models/nemotron/seed2",
+      "initial_state_sha256": "4077836023176c316d585a7ec30064d93236127474b3229896d80c6b578bfe12"
+    },
+    {
+      "id": "models_nemotron_fashion_0",
+      "group": "models",
+      "model": "nemotron",
+      "task": "fashion",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/fashion/seed0",
+      "initial_state_sha256": "c1c9e4d36a33e13553a607ad7e9c99f4a9536c3b5f8f0ae2001a38cf5137a3b6"
+    },
+    {
+      "id": "models_nemotron_fashion_1",
+      "group": "models",
+      "model": "nemotron",
+      "task": "fashion",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/fashion/seed1",
+      "initial_state_sha256": "60ce0b338a7360f2b9d8fbd584d3493aacbfef1a12aa549245f57f4e7b73ffd9"
+    },
+    {
+      "id": "models_nemotron_fashion_2",
+      "group": "models",
+      "model": "nemotron",
+      "task": "fashion",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/fashion/seed2",
+      "initial_state_sha256": "97812abc007bef1117efd47316ec270171862709aede89e91eefb5ee4e308d56"
+    },
+    {
+      "id": "models_nemotron_mnist_1",
+      "group": "models",
+      "model": "nemotron",
+      "task": "mnist",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/mnist/seed1",
+      "initial_state_sha256": "3b8abb1c7be0d3cf235bf507d5d1c59d6e21c7a2df75d5b384f7bd5155bcee85"
+    },
+    {
+      "id": "models_nemotron_mnist_2",
+      "group": "models",
+      "model": "nemotron",
+      "task": "mnist",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/mnist/seed2",
+      "initial_state_sha256": "ee664f2e46d8c128709230e503bff82ecbd1f8b7e5cd6e5b3d52a27084cb1576"
+    },
+    {
+      "id": "models_nemotron_sst2_0",
+      "group": "models",
+      "model": "nemotron",
+      "task": "sst2",
+      "seed": 0,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/sst2/seed0",
+      "initial_state_sha256": "d03abe333cfec4bc50b7943997c1af482f45e043059220c18d7da0e2a9d784ec"
+    },
+    {
+      "id": "models_nemotron_sst2_1",
+      "group": "models",
+      "model": "nemotron",
+      "task": "sst2",
+      "seed": 1,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/sst2/seed1",
+      "initial_state_sha256": "298af3c05c4f1151fe008bd8958acf8a320312f2763dadbdfce0da64fa893f62"
+    },
+    {
+      "id": "models_nemotron_sst2_2",
+      "group": "models",
+      "model": "nemotron",
+      "task": "sst2",
+      "seed": 2,
+      "prior": 10,
+      "budget": 60,
+      "folder": "expansion_runs/classification/nemotron/sst2/seed2",
+      "initial_state_sha256": "792170213dba25217ae8e18017d50d01ce628ab410590205b7c2e9513e9184c6"
+    }
+  ],
+  "source_plan_sha256": "5bc317637efb6b867df6571cc7a742dda4368481a2fc3f9322befebd36138baf"
+}

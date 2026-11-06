@@ -1,0 +1,1283 @@
+{
+  "220b2fd7289c8fb01aa1b172388aff1c2257f4610aba11d8c3196e533578242e": {
+    "verdict": "prohibited_optimizer",
+    "reviewed_at": 1793757786.7344275,
+    "source": "expansion_runs/classification/deepseek60/mnist/seed2/llm/mutation_018/edit.py",
+    "reason": "Explicit CE parameter gradients grad_W2/grad_b2 and a Hessian-based Newton weight update, plus derivative-based temperature optimization. This is not merely a covariance/ridge fit.",
+    "reviewer": "Codex source inspection"
+  },
+  "530054e3b3a9cc508ea67f98b4560f2966843a7d58bedab7f49c66aa4d3728d9": {
+    "verdict": "prohibited_optimizer",
+    "reviewed_at": 1793757786.7344296,
+    "source": "diffusion_runs/models/nemotron/seed0/construction.py",
+    "reason": "Explicit analytical MSE gradients and fixed-learning-rate out_w - lr*grad update. Lack of autograd does not make this gradient-free.",
+    "reviewer": "Codex source inspection"
+  },
+  "bcdad6d23e691e6f60b538175026509cce20ee5a210cf917e917227e492d9aec": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/deepseek60/mnist/seed1/llm/mutation_024/edit.py",
+    "reason": "CE gradients and a Newton/Hessian parameter update were executed, even though that candidate was not the final selection.",
+    "reviewed_at": 1793758556.0743556,
+    "reviewer": "Codex source inspection"
+  },
+  "c9abf9aae323cfc7996739e2bdc3128b388895e2e678bff452720829fab70617": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/deepseek60/mnist/seed0/llm/mutation_012/edit.py",
+    "reason": "Explicit CE gradient and Hessian/Newton parameter update.",
+    "reviewed_at": 1793759465.914021,
+    "reviewer": "Codex source inspection"
+  },
+  "254ced4d6e6f8f60a3deed61120030592299da0ab5c55fc44269b65d00c6e6ce": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/deepseek60/fashion/seed1/llm/mutation_016/edit.py",
+    "reason": "Logit-gradient/Hessian Newton targets followed by ridge parameter correction.",
+    "reviewed_at": 1793759465.9141273,
+    "reviewer": "Codex source inspection"
+  },
+  "7f5ecec947d16fc4b2a1e361e3ab2c89bf3cac57a49c2cd02d8f4041f5773878": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/deepseek60/fashion/seed2/llm/mutation_031/edit.py",
+    "reason": "Derivative-based Newton optimization of temperature scales the network parameters.",
+    "reviewed_at": 1793759465.9142106,
+    "reviewer": "Codex source inspection"
+  },
+  "52b566a2387e8502101466439536bd2555adbff078d0528b0661d85def0135fc": {
+    "verdict": "prohibited_optimizer",
+    "source": "diffusion_runs/models/nemotron/seed1/llm/mutation_007/edit.py",
+    "reason": "Explicit MSE parameter gradients and learning-rate update.",
+    "reviewed_at": 1793759465.9142756,
+    "reviewer": "Codex source inspection"
+  },
+  "96780b1389b8fc48d99ec72930593ae3e66aa280c7a8e17d77496d79fff89427": {
+    "verdict": "prohibited_optimizer",
+    "source": "diffusion_runs/models/nemotron/seed2/llm/mutation_011/edit.py",
+    "reason": "Residual-feature gradient correction of kernel weights; closed-form label does not remove gradient dependence.",
+    "reviewed_at": 1793759465.9143414,
+    "reviewer": "Codex source inspection"
+  },
+  "050aff4157c611613f944cbb079a67ce6925093a2811d1f42dcc49a56ab5247e": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/fashion/seed0/llm/mutation_022/edit.py",
+    "reason": "Ridge normal equations for cached CNN features, centering and deterministic logit scaling.",
+    "reviewed_at": 1793760518.457574,
+    "reviewer": "Codex source inspection"
+  },
+  "98829d7f51ef38adff608a2dc801d0621e587ac7a485cd815793613f3373b287": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/fashion/seed0/llm/mutation_002/edit.py",
+    "reason": "Standardized cached features and closed-form ridge head fitting.",
+    "reviewed_at": 1793760518.4575784,
+    "reviewer": "Codex source inspection"
+  },
+  "c9c668791bb3a90652ea83415d42df95b9cd0ba4d461c34c38e368541ca0795e": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/fashion/seed0/llm/mutation_010/edit.py",
+    "reason": "Training-only holdout selection of ridge and discrete scale followed by full-pool closed-form refit.",
+    "reviewed_at": 1793760518.4575799,
+    "reviewer": "Codex source inspection"
+  },
+  "179a9bd6f16509db25f55cb1b100c99e8441e515d2e7f510f5d77487c4da3626": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/fashion/seed0/llm/mutation_033/edit.py",
+    "reason": "Training-image flips, internal forward features and training-only ridge cross-validation.",
+    "reviewed_at": 1793760518.4575818,
+    "reviewer": "Codex source inspection"
+  },
+  "04f3e9d5f88876c7ab48af4c4f696ee4d17a0acf35f6598e876a53bdb41e601a": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed0/construction.py",
+    "reason": "Bag-of-words ridge/SVD construction; transformer attention/feedforward weights explicitly zeroed.",
+    "reviewed_at": 1793760518.4575834,
+    "reviewer": "Codex source inspection"
+  },
+  "6ca1290944e2b83bee5e8294a69ace7099402578a241c1a59e18970b09e49a52": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed0/llm/mutation_044/edit.py",
+    "reason": "Training-only ridge cross-validation; embeds token scores and zeroes transformer attention/feedforward blocks.",
+    "reviewed_at": 1793760518.4575846,
+    "reviewer": "Codex source inspection"
+  },
+  "e11be668ba9149ce0d84f8d8e63336e3ac2b31ff5007698eb2140fb5c34d39cf": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed0/llm/mutation_009/edit.py",
+    "reason": "Training-only ridge cross-validation and discrete threshold enumeration; score embeddings, zero attention/feedforward weights.",
+    "reviewed_at": 1793760518.4575863,
+    "reviewer": "Codex source inspection"
+  },
+  "3682416b77ea3951f5d9238984a99765231322aebcbb372a35b81612dbd10984": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed0/llm/mutation_027/edit.py",
+    "reason": "Class means/covariance and regularized LDA linear solve.",
+    "reviewed_at": 1793760518.4575877,
+    "reviewer": "Codex source inspection"
+  },
+  "77a18e45f7ad437c8ad4d700c76253e1e9b62eeeb72dbeaa306d710e6fddf8a5": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/repaired/models/nemotron/seed0/llm/mutation_002/edit.py",
+    "reason": "Direct least-squares fit of cached diffusion features into center output taps.",
+    "reviewed_at": 1793760518.4575887,
+    "reviewer": "Codex source inspection"
+  },
+  "7f53681381bbddc27c1e593921fb290837ae438042908979a393d114d85336a8": {
+    "verdict": "prohibited_optimizer",
+    "source": "diffusion_runs/repaired/models/nemotron/seed0/llm/mutation_004/edit.py",
+    "reason": "Unsolved X.T @ (prediction-target) parameter step, despite use of delta_w naming. Selected in the first replacement.",
+    "reviewed_at": 1793760518.45759,
+    "reviewer": "Codex source inspection"
+  },
+  "d4363613f55c0878a1902e33ead95757de1a17cf3c45b7ba12af98a11470e71e": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/minimax/seed0/llm/mutation_007/edit.py",
+    "reason": "Training-only linear filter/time-intercept normal equations; deterministic hinge construction and forward diagnostics.",
+    "reviewed_at": 1793760518.4575915,
+    "reviewer": "Codex source inspection"
+  },
+  "6807f1ae38ed30c6552286551ce9ed71d6612b284546004cde445f3aa6bccb22": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed0/construction.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4575927,
+    "reviewer": "Codex source inspection"
+  },
+  "e7e45ebc372b928804e66d6f78c1673daf69fb27eafe7543cbcbdd2158c1e20a": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed0/llm/mutation_006/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.457594,
+    "reviewer": "Codex source inspection"
+  },
+  "83a34d122fb9b35d40020073ebde9febe1dbb571f143ed6ff51d60f249a22719": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed0/llm/mutation_002/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4575953,
+    "reviewer": "Codex source inspection"
+  },
+  "1e89b3f6f39cb303b8ed16cd55dfb3e9526a92bf14b6c6ed3f9ff7b69ee7bf25": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/construction.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4576013,
+    "reviewer": "Codex source inspection"
+  },
+  "26cc54e8002191938d2d09d790e9571321ccbc78eb0c42c60e3b63d6c0db721a": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_019/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4576025,
+    "reviewer": "Codex source inspection"
+  },
+  "5492341d3dd50f1e2e7f83f5e0024e5206ec8986d728c3eae33dcbf96117acaf": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_011/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4576037,
+    "reviewer": "Codex source inspection"
+  },
+  "105e6ea48aa4afdaa27e1bf2b920f4f30df66ffc2a1ad24ab7ed92a2dd53be8b": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_001/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.457605,
+    "reviewer": "Codex source inspection"
+  },
+  "7748adc1f00e20d734bcf42e7419fd51b264b2fbd42ea3159f47f95473294c48": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_014/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4576058,
+    "reviewer": "Codex source inspection"
+  },
+  "143d1e8bd00d2518c4b0455dc9f0488f9c65058b830e382c43710208cb2db5ef": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed2/construction.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.457607,
+    "reviewer": "Codex source inspection"
+  },
+  "00b4e8426d5c80abb35e170472d243cec4d0cbb3c22c499364e5ddc0de622dc7": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed2/llm/mutation_017/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4576082,
+    "reviewer": "Codex source inspection"
+  },
+  "12516c51acce034f192b4818cebb17c00b62a746fdaf537f43a48aeac584f43f": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed2/llm/mutation_001/edit.py",
+    "reason": "Reviewed full source: training-only feature construction and/or direct ridge/least-squares normal equations. No parameter-gradient step. Training-only candidate choice and forward diagnostics are permitted.",
+    "reviewed_at": 1793760518.4576094,
+    "reviewer": "Codex source inspection"
+  },
+  "668b962ab627b02e602a2b8c2443c63a7401926cc50cfa09745537896b871e99": {
+    "verdict": "prohibited_optimizer",
+    "source": "diffusion_runs/repaired/models/nemotron/seed0/llm/mutation_020/edit.py",
+    "reason": "Residual-feature correlation parameter step detected by the expanded data-flow screen; entire trajectory already excluded.",
+    "reviewed_at": 1793760518.4577317,
+    "reviewer": "Codex source inspection"
+  },
+  "a108c824c52490764717d759022fcb72c66499581c23d50347fc7b693d66e12f": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_007/edit.py",
+    "reason": "Spatial feature differences and closed-form ridge; fallback scalar regression uses covariance/variance, not a residual learning-rate step. Conservative screen flag is a false positive.",
+    "reviewed_at": 1793760518.457887,
+    "reviewer": "Codex source inspection"
+  },
+  "2188844845be237aa26f0d4a148a2939a693588cd1155ab095286b88d68f0b45": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "diffusion_runs/repaired_v2/models/nemotron/seed0/llm/mutation_004/edit.py",
+    "reason": "Exact closed-form least-squares output-bias correction: add mean(target-prediction), with no residual-feature gradient or learning-rate step.",
+    "reviewed_at": 1793762617.1034665
+  },
+  "3ca6de7cef48295ccce5d38cf1ec64fc7cf8d4fcfe849662ff5db6251b1cb4ed": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "diffusion_runs/repaired_v2/models/nemotron/seed0/llm/mutation_003/edit.py",
+    "reason": "Bias-only moment construction, with a sign error relative to an optimal mean correction; no feature-correlation parameter-gradient update. This proposal was not selected.",
+    "reviewed_at": 1793762617.1035273
+  },
+  "740378006c079dc4371e9a8c45ef8942d0894dd5400f2cc4b817d73f6846a25f": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed1/construction.py",
+    "reason": "Centered-input PCA/SVD hidden features followed by a direct ridge normal-equation head fit.",
+    "reviewed_at": 1793763363.7534347
+  },
+  "e3bfdb59f46b7c37648cc57302c0d6bcaa958d7e7d0f68a13a78f195b54daae1": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed1/llm/mutation_057/edit.py",
+    "reason": "Training-only translation augmentation and discrete ridge/LDA cross-validation; full-pool closed-form readout fit.",
+    "reviewed_at": 1793763363.754028
+  },
+  "cca380ed827990f964699f95941f33a623a7088052c33807a32781879731b8df": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed1/llm/mutation_010/edit.py",
+    "reason": "Training class means/covariance, shrinkage selection and LDA linear solves.",
+    "reviewed_at": 1793763363.755161
+  },
+  "1afc57f9f4b8c55c296c4d33a1a3fcbfdd2beaa45c2d6b4b53cb64b6fb83831d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed1/llm/mutation_005/edit.py",
+    "reason": "Training-only five-fold ridge regularization selection and full-pool closed-form head refit.",
+    "reviewed_at": 1793763363.7553866
+  },
+  "256a294c33f13213c3dede160f8bf1c0b04f89bec01c1f0f12076255685574db": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed1/llm/mutation_024/edit.py",
+    "reason": "Training-only raw-input ridge/LDA selection, class-moment feature ranking and direct score-feature injection into hidden weights, followed by closed-form head fitting. Internal CV feature construction is not nested and may overfit training feedback; no held-out selection/test arrays used.",
+    "reviewed_at": 1793763363.7556808
+  },
+  "2d0aba14b0b2a7da0bd5818f5e38c601b750e41c691b53988f9e729e1e8f1b8d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "diffusion_runs/repaired/models/nemotron/seed2/construction.py",
+    "reason": "Exact output-bias least-squares correction by adding mean(target-prediction). No feature-gradient or learning-rate update.",
+    "reviewed_at": 1793763968.0129235
+  },
+  "cacc902f7b08638ffd106bf29c89829d0ad1caae0dd77cebe31c1c7f40ecee43": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/construction.py",
+    "reason": "Direct ridge head normal equations on cached training features.",
+    "reviewed_at": 1793803141.6639116
+  },
+  "a985e2f91d2d233d877d24f46a3c32370ee0c1930ed45aa6470ab50dab8fd516": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/llm/mutation_006/edit.py",
+    "reason": "Training-only selection among direct ridge, prior-regularized ridge and class-moment LDA fits; no descent step.",
+    "reviewed_at": 1793803141.6639931
+  },
+  "92fe60dc028fdd0fe6ba1fabb83963e36e714dd4b3ef665be097108dd42e5c64": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/llm/mutation_039/edit.py",
+    "reason": "Constructs margin-based correction targets and solves weighted ridge normal equations for a residual head correction; discrete training-only parameter selection. This is the permitted solved residual-fit case.",
+    "reviewed_at": 1793803141.664053
+  },
+  "1dc1c30fe2760e1971d2214d7650c79bd2f05a2c91d7d4601876eb4aeed744bd": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/llm/mutation_004/edit.py",
+    "reason": "Prior-regularized ridge normal equations centered at current head weights, with training-only CV.",
+    "reviewed_at": 1793803141.6641023
+  },
+  "892866f20bfad54bf11fc4653114b78922bbf2f6ce32145a06e226a6847f1186": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/llm/mutation_009/edit.py",
+    "reason": "Class-mean directions plus PCA/SVD hidden construction and direct ridge head fitting.",
+    "reviewed_at": 1793803141.6641517
+  },
+  "e48bb058fe44724d30781b7dbcb1ea4ab6b07ba0877ad5e3d20cdb9168d64963": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/llm/mutation_013/edit.py",
+    "reason": "Within/between-class covariance eigendecomposition for hidden directions; training-only CV of ridge fits.",
+    "reviewed_at": 1793803141.6642165
+  },
+  "e6528aff41a47f022931b43b94c6d6245d34d1cf6c4eeafb0b5425f245dbb3d9": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed0/llm/mutation_014/edit.py",
+    "reason": "Class means, SVD LDA/PCA hidden features; discrete training-only ridge/LDA head selection.",
+    "reviewed_at": 1793803141.6642735
+  },
+  "6ca4fa86a32d6fbfb0eccb6046d866beb05a3d87c74d0c0d845d1f3e622264c9": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed2/construction.py",
+    "reason": "Class-conditional and global PCA/SVD filters, class-mean templates and direct ridge head construction.",
+    "reviewed_at": 1793803154.1863954
+  },
+  "bc9cbb599fdb18c1db07b65932ad498f19a1db01bb697877189313e1055df2aa": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed2/llm/mutation_036/edit.py",
+    "reason": "Standardized-feature ridge CV and moment-based logit-variance scaling.",
+    "reviewed_at": 1793803154.1864636
+  },
+  "2eda72fc227205d13e194cfeca621b48f5d6e6438a60f0ddf568058aadfb252d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed2/llm/mutation_059/edit.py",
+    "reason": "Discrete training-only LDA/ridge comparison; replacement of dead units with class means, pairwise class differences and PCA directions; no gradient optimization.",
+    "reviewed_at": 1793803154.1865377
+  },
+  "bffe0717d6bb606aa3978c6061ceba3c8b7143729901bac1f812d57c010f79f0": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed2/llm/mutation_001/edit.py",
+    "reason": "Direct ridge/LDA head fits over current versus PCA features, selected on training feedback.",
+    "reviewed_at": 1793803154.1865938
+  },
+  "afd1fe94bb46ea1e5dc71894e2350bb2d61a16bd61c5358624a0380a192b2b44": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/mnist/seed2/llm/mutation_014/edit.py",
+    "reason": "Mean/std hidden-feature transformations and training-only shrinkage/standardization choices with closed-form LDA.",
+    "reviewed_at": 1793803154.1866586
+  },
+  "e0772fe44da407f4c61e46f3d0b40d7c9696e86bbc3b4e5069f413ce375ca12b": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed1/construction.py",
+    "reason": "Training-only ridge CV and direct full-pool normal-equation head fit.",
+    "reviewed_at": 1793803174.5801775
+  },
+  "05607005bcec34a84d371d031ad50d4d454c6f6c3414c50b757efac83eda7014": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed1/llm/mutation_006/edit.py",
+    "reason": "Standardized ridge/prior-regularized ridge with training-only CV; direct solves.",
+    "reviewed_at": 1793803174.58025
+  },
+  "da5a56ee226fdbc98aed66b7257261276687f8e51d863c78fce55bd10b96a362": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed1/llm/mutation_010/edit.py",
+    "reason": "Moment-based positive temperature scaling from mean top-two logit margin.",
+    "reviewed_at": 1793803174.5802953
+  },
+  "433f5bbf1d0dcca91801336a55936a921bfc1b474971a5fed6cfd8ba92d8702c": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed1/llm/mutation_005/edit.py",
+    "reason": "Prior-centered ridge normal equations selected using a training-pool internal holdout.",
+    "reviewed_at": 1793803174.5803518
+  },
+  "466951bf67a5882c0f3b5ac8cc22a2adabc2b5c1705078c194e298c341b101f1": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed1/llm/mutation_009/edit.py",
+    "reason": "Five-fold training-only ridge CV; intercept unregularized.",
+    "reviewed_at": 1793803174.580397
+  },
+  "d785fae8d17cfbaeb51c55eae64df5ed7abf95a36fb140c0bec5ff5159209978": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed1/llm/mutation_013/edit.py",
+    "reason": "Direct ridge fit plus scalar bisection matching mean confidence to training accuracy; statistical calibration, no parameter-loss derivative.",
+    "reviewed_at": 1793803174.5804422
+  },
+  "a9f4d8fd8f99bfdf7c35f652032743fff1392c0456066aa6ca2da7e39ba41df1": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed2/construction.py",
+    "reason": "Centered ridge head normal equations and descriptive class accuracies.",
+    "reviewed_at": 1793803174.5804799
+  },
+  "d072639ede387f41b26aba6cde20f5945184b92374c8fc973fb9ac9dba6be167": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed2/llm/mutation_012/edit.py",
+    "reason": "Within-class covariance shrinkage LDA solve and logit standard-deviation scaling.",
+    "reviewed_at": 1793803174.580522
+  },
+  "494673729ec644262c751887077f96d4bc22e900b26d6d30dc65726941075af2": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed2/llm/mutation_002/edit.py",
+    "reason": "Stratified training-only CV of prior-regularized ridge head fits.",
+    "reviewed_at": 1793803174.5805686
+  },
+  "578966bc7fa9c7ea76796c6faed51be2d8a6bcd066076a0039c7d052b2a1f7af": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed2/llm/mutation_013/edit.py",
+    "reason": "Uniform head rescaling to the numerical magnitude limit; no fitting or derivative.",
+    "reviewed_at": 1793803174.580606
+  },
+  "73b3113934f90f3ec42521960959a744a4b41c9b37731b3556efe4a4e4714e8b": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed2/llm/mutation_001/edit.py",
+    "reason": "Training-only holdout ridge selection followed by full-pool direct solve.",
+    "reviewed_at": 1793803174.580656
+  },
+  "9943b53929141824aea268619b08c9a9d18ba09c73878c16aa7d5efa9fb6542d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/repaired/classification/deepseek60/fashion/seed2/llm/mutation_014/edit.py",
+    "reason": "Discrete comparison of direct ridge fits and rescaled current head using training cross-entropy; no derivative update.",
+    "reviewed_at": 1793803174.580705
+  },
+  "95c0cac277af858ea123b4c0feb1cd36d57eb3aa0a9cebc651e77b50c75fc5b2": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed1/construction.py",
+    "reason": "Bag-of-words ridge token scores encoded into normalized embeddings; zero attention/feedforward outputs and direct ridge head fit.",
+    "reviewed_at": 1793803190.9396574
+  },
+  "5d6fd3c19bdbbe8e9b15aac73ef4f8df5c3e8bbe607387e5da15f21c2589e929": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed1/llm/mutation_029/edit.py",
+    "reason": "Dual ridge linear solves on training token counts; fixed-norm trigonometric embedding construction accounts for LayerNorm. No derivative optimization.",
+    "reviewed_at": 1793803190.9397528
+  },
+  "b92316b91b5f8b0098a1602677ffb074b4a36c54e720e9da2c06577e4919b648": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed1/llm/mutation_003/edit.py",
+    "reason": "Bag-of-words ridge normal equations and algebraic embedding/head encoding; attention/feedforward blocks zeroed.",
+    "reviewed_at": 1793803190.939816
+  },
+  "0cc80320f90c1541affa7bede1528970e27f10d837350f4e4355bafb52fe1d94": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed1/llm/mutation_001/edit.py",
+    "reason": "Training-only comparison of regularized LDA and least-squares heads.",
+    "reviewed_at": 1793803190.9398606
+  },
+  "4ce6f74c43b7b50a85beaf68b6d82b168ad7be474fde52e083a713cc4330bd6f": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/construction.py",
+    "reason": "Class moments/covariance LDA versus direct ridge head comparison on training feedback.",
+    "reviewed_at": 1793803190.9399035
+  },
+  "dbe6cba813b4c0fba5a0d01ce214761afb298d7e8d9674e94929f7a061777b37": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_055/edit.py",
+    "reason": "Standardized-feature class covariance LDA solve/pseudoinverse and algebraic head mapping.",
+    "reviewed_at": 1793803190.939956
+  },
+  "4cf60e5695a57d716fe0311dba51843a072d6d6382516c4bfe1b7273a1a1d627": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_020/edit.py",
+    "reason": "Training-only bag-of-words ridge CV, algebraic normalized score embeddings, zeroed transformer blocks.",
+    "reviewed_at": 1793803205.0250843
+  },
+  "6eeed9734509d32bebbd0d9f9c096c8173d3086881826012926e9e55a0eef078": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_003/edit.py",
+    "reason": "Class covariance/PCA eigendecomposition for token embedding and direct pooled-feature least-squares head; no gradient step.",
+    "reviewed_at": 1793803205.0251744
+  },
+  "36c642c1b184d29ebfbce9c832c6b4e3abf153d95a5f9f3450a0d3971cf3bf65": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_004/edit.py",
+    "reason": "Two-stage bag-of-words ridge embedding and direct ridge head fit on normalized pooled features.",
+    "reviewed_at": 1793803205.0252361
+  },
+  "115a2dc085f2e591ceed1cb9ec85f24801cdbe0fb8fcb5192a0f21438d6c4d08": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_009/edit.py",
+    "reason": "PCA token embedding plus ridge head; initially assigned random feedforward weights are subsequently zeroed before return.",
+    "reviewed_at": 1793803205.0253525
+  },
+  "e938814ad3d97c381218cbc137ef329cc9091d1041ecf07a0446c95ac4fcada0": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_001/edit.py",
+    "reason": "Standardized cached features, training-only ridge/LDA CV and direct full-pool head fit.",
+    "reviewed_at": 1793803205.0254092
+  },
+  "351310c5733b27e5c8f7c4112116dd68920a67a1aa4448d454274df3604e8cc4": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_008/edit.py",
+    "reason": "Bag-of-words ridge, Gram-Schmidt projection construction and pooled-feature ridge head; transformer branches zeroed.",
+    "reviewed_at": 1793803205.0254688
+  },
+  "c369772254aa8d475e8bc0692235b8029c2cc90824e64283b6a67265c5917eb7": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek60/sst2/seed2/llm/mutation_025/edit.py",
+    "reason": "Bag-of-words ridge token scores, QR orthogonal fixed-norm embeddings and direct pooled-feature ridge head; transformer branches zeroed.",
+    "reviewed_at": 1793803205.0255365
+  },
+  "50b893a834bb7dbe1209c23e8fc2fea52e0caad3f6ccedaf0a8d0a115758b29d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed0/construction.py",
+    "reason": "Direct least-squares head fit on the128-example training-layer trace; full-pool forward diagnostics. Uses pre-ReLU trace rather than cached post-ReLU features, which can affect performance, not eligibility.",
+    "reviewed_at": 1793803222.5633154
+  },
+  "359412879f12eabe6cc26628c9a5d72a3eab6db2f516bfda632c2c3ef9760f5c": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed0/llm/mutation_003/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5633779
+  },
+  "1625c364a8690832424cf78367917d1f8a076642c0e7d0e6179e4a4b6c4279dd": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed0/llm/mutation_002/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5634243
+  },
+  "3c943125983076254e4c3c270aad95616e724dd3a3a7df8d96d3d87a865016c2": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed0/llm/mutation_010/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5634692
+  },
+  "567b82b9d9723a0205c6083fff0756f63a1c316daf972349382f7e08485a22ae": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed1/construction.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5635135
+  },
+  "d3427e8effcb7f9bcdeed2800c67706f5be036b97b807f82a7a04af908876e25": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed1/llm/mutation_002/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5635538
+  },
+  "630f225c1e779c7e855ef89c988ba5994269dbd69ca8301493bce20bd573aa01": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed1/llm/mutation_009/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5636034
+  },
+  "dcbebade2084306621ffc1302d5804966ac8d10dbfb7db00c83865cc84bc20d9": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed1/llm/mutation_001/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5636458
+  },
+  "d3c2827691a560c4a5acdc2acd08c8c71adff7cc7c25be0df6275efeb6885a33": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed2/llm/mutation_007/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5636969
+  },
+  "29ab32fef4688d4e15af9ae2d0a26e48a1e152e2af493a1361749d9f4c9cb7c6": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/mnist/seed2/llm/mutation_001/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.563742
+  },
+  "9114c097ced056f48afe5538e50e7db320c51dffc5787e5639e7aa29a73c62ed": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/fashion/seed0/llm/mutation_001/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5638072
+  },
+  "b7d441624a4c582a60d1c00587de8b10a15b63e36999df9c7411b4a1fe1dc301": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/fashion/seed1/llm/mutation_007/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.56386
+  },
+  "29d125e68f60ff8b48e48f2dbc3d82c15dca78c8a7ba52cd9a0a69ed0f4a16c1": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/fashion/seed2/llm/mutation_001/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5639017
+  },
+  "545fd92a33b6807fe545db63e3085468dbe015a081e2458d78376843c05f4b8b": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/sst2/seed0/construction.py",
+    "reason": "Class means and pooled covariance LDA direct solve, followed by algebraic binary head construction and training diagnostics.",
+    "reviewed_at": 1793803222.5639434
+  },
+  "2adad319a6d331a2d6431e78f2f3bb3d3cffb15bd1d2197ffdbb5739804b3447": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/sst2/seed0/llm/mutation_010/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5639994
+  },
+  "6df350623b1e2eadb68f668342a0cd6bee9d11d9ed5577d62b6d9295c1039edf": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/sst2/seed0/llm/mutation_005/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5640428
+  },
+  "e635eaeafd94227c2e038f75b17dbe472a911b0e733bae1b5466ca961784bd46": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/sst2/seed1/construction.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5640872
+  },
+  "f71486ab532703964b5a17a7c00283e29dc95336da77e25e0b187d54952de80d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/sst2/seed2/construction.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.564133
+  },
+  "ed630a805398ee8bf8fefb7e302f0a5c7fe32ad4f04fc84cd63f6b6bd05d3e52": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/nemotron/sst2/seed2/llm/mutation_006/edit.py",
+    "reason": "Inspected complete source: direct ridge/least-squares normal equations on permitted cached training features, with residual-mean intercept or augmented intercept; only forward diagnostics, no loss-gradient update.",
+    "reviewed_at": 1793803222.5641785
+  },
+  "2d5eeafcfa1c82d4cda73aac3b0e61107b929f29bf69181583c9bced822cab93": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/mnist/seed0/llm/mutation_005/edit.py",
+    "reason": "Within-class whitening/PCA eigendecomposition, fixed linear/nonlinear hidden filters and direct ridge fitting with algebraic leave-one-out score.",
+    "reviewed_at": 1793803235.3769858
+  },
+  "c71c3eb24ef0ba7d12d9f5cbe1cc1b5c7602dd2881d7024e2f8c4ac8b77448fe": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/mnist/seed1/llm/mutation_007/edit.py",
+    "reason": "Whitened PCA and random/class-template feature designs selected on training accuracy; direct ridge fits with SVD generalized-CV criterion. No gradient updates; internal feature selection is not nested CV.",
+    "reviewed_at": 1793803235.3770814
+  },
+  "f1d97b2a9f21f0dfebd8660ba064b8a76426072bff206c560e349adb9b4031dd": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/mnist/seed2/llm/mutation_005/edit.py",
+    "reason": "PCA/LDA plus seeded random hidden-feature designs; direct ridge normal equations with algebraic leave-one-out score and training-pool holdout design selection.",
+    "reviewed_at": 1793803235.3771515
+  },
+  "2fb8b0d1359d7c200744dee26c7f53b78f924401c426b593358c3b591cf7a51e": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/fashion/seed0/llm/mutation_001/edit.py",
+    "reason": "Class-moment covariance/shrinkage LDA solve with direct scalar least-squares logit scaling; diagnostic LOO calculation does not drive gradient updates.",
+    "reviewed_at": 1793803248.8248494
+  },
+  "baa0cb616aefed60783473d2a9d0f710269a7eb9c8797c7d13af5cf199fb2342": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/fashion/seed1/llm/mutation_002/edit.py",
+    "reason": "Explicit fixed Gabor/DoG convolution filter construction, training-only internal forward verification/features and direct ridge/Cholesky head fits.",
+    "reviewed_at": 1793803248.8249395
+  },
+  "768094a69c11bacea8bad5f8d54ff645dd7ccc559327d480a8eb4e6672c8dbcd": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/fashion/seed2/llm/mutation_010/edit.py",
+    "reason": "Class between/within-variance feature ranking, eigenvalue-form ridge solutions and algebraic LOO-based discrete feature-count/regularization selection. No parameter derivatives.",
+    "reviewed_at": 1793803248.825001
+  },
+  "b5b3636e01bc4dfe6f7ae04574febcc7fc3481841f67ce651b9688759339168b": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/sst2/seed0/llm/mutation_005/edit.py",
+    "reason": "Training-only bag-of-words ridge normal equations, algebraic GCV regularization choice and fixed-norm embedding realization. Full NumPy transformer forward is diagnostics only; blocks zeroed.",
+    "reviewed_at": 1793803272.5484626
+  },
+  "400e216041bca30c2216272c797601ff2d1cd76b693d565262a67a592477d5d5": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/sst2/seed1/llm/mutation_001/edit.py",
+    "reason": "Smoothed class-conditional token-count log odds with moment-based shrinkage, algebraic embeddings/head and training-only split diagnostics. No derivative fitting.",
+    "reviewed_at": 1793803272.5485392
+  },
+  "3d8ddd41ce17389335b000ca42308c78cb9c8bf5a7fc613bb7afc3775e5e01be": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/minimax/sst2/seed2/llm/mutation_004/edit.py",
+    "reason": "Naive-Bayes token log odds versus direct ridge fits, discrete training-pool CV choice and fixed-norm embedding construction; blocks zeroed. NB CV uses full-pool moments and is not nested.",
+    "reviewed_at": 1793803272.5486042
+  },
+  "7a17e8c42e54d3d729ae59fffb03a648e4384c1ebc160a50ab38bea465abf55f": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed0/construction.py",
+    "reason": "Training covariance PCA/eigendecomposition hidden weights plus direct ridge readout.",
+    "reviewed_at": 1793803286.0039146
+  },
+  "251d5b95a182fe3e1cb766cb1d97b4d042064d2f9894457af6dcde35631ffc4d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed0/llm/mutation_002/edit.py",
+    "reason": "Class-moment LDA and PCA directions with positive/negative ReLU pairs; training-only holdout ridge selection and direct refit.",
+    "reviewed_at": 1793803286.0039942
+  },
+  "494d759e9313c934f4a7542e1a876e5d3f9f3dce9e92da14280be4727de33dd1": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed0/llm/mutation_004/edit.py",
+    "reason": "Training-pool holdout selection between direct LDA and ridge head fits.",
+    "reviewed_at": 1793803286.0040648
+  },
+  "d6cfe6814d334492a0ef9b7f2939fe8ddec3f63a0ca313d9d52d3cfc8d9c50fc": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed1/construction.py",
+    "reason": "Discrete PCA, class-mean/PCA and seeded random feature constructions selected on training-pool holdout with direct ridge fits.",
+    "reviewed_at": 1793803286.0041173
+  },
+  "3584b6bebc2ee9d11ff27e12c469ca1278f3542bbd6a40b925fbc9d2058382b4": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed1/llm/mutation_002/edit.py",
+    "reason": "Discrete current/centered/zero-bias/PCA feature candidates and training-only ridge/LDA CV; direct final head fitting.",
+    "reviewed_at": 1793803286.0041804
+  },
+  "137c4493bc7b443632da294446a82947b0c4336c1717f70fbf0c7b4f1e1fd10c": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed2/construction.py",
+    "reason": "Centered PCA/SVD hidden construction and direct ridge normal-equation readout.",
+    "reviewed_at": 1793803286.004222
+  },
+  "48f0200d4ef9fce296ff9d240d8ddea9c73da37826d455bc17370a70a97b9e37": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed2/llm/mutation_002/edit.py",
+    "reason": "Class covariance/mean LDA direct solves and algebraic quadratic/prior-free intercept.",
+    "reviewed_at": 1793803286.004264
+  },
+  "bc0ab864464c0c855135db7bbe1e7507577736a0cab172b870db4a9281fbc248": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed0/construction.py",
+    "reason": "Variance-based feature filtering/standardization and centered direct ridge head fit.",
+    "reviewed_at": 1793803300.5376623
+  },
+  "99a6155709c16f22e1ad62cdc68114d477d9a8bd6479d2ecc1c0affe75f4657a": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed0/llm/mutation_002/edit.py",
+    "reason": "Positive temperature from average training true-class margin; algebraic scaling only.",
+    "reviewed_at": 1793803300.537727
+  },
+  "815fb054ab395355bc528e4c86ef85e229e059a76c2c8d742d50e8bb6e7326c0": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed0/llm/mutation_010/edit.py",
+    "reason": "Class-moment LDA direct solve with uniform numerical-range scaling.",
+    "reviewed_at": 1793803300.5377774
+  },
+  "d941a05ac872e975eadad03a88240cb431c3bcd81d8326990bf9661222f30677": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed1/construction.py",
+    "reason": "Centered direct ridge normal-equation head fit and training diagnostics.",
+    "reviewed_at": 1793803300.5378258
+  },
+  "12e549e452821f30d78bcf00d67d19459809a5c61113e0c13b0293ca8b79b8e2": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed1/llm/mutation_003/edit.py",
+    "reason": "Fixed positive uniform head scaling; diagnostics only.",
+    "reviewed_at": 1793803300.5378656
+  },
+  "2b087dedb40606656a2016bbc6ec8095d845bc5ef358fc9c22ee5bb8afd92368": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed1/llm/mutation_005/edit.py",
+    "reason": "Discrete scalar temperature grid evaluated on training feedback; no derivative or iterative descent update.",
+    "reviewed_at": 1793803300.5379057
+  },
+  "96c3891a87ce70934da775850a370c8763a5bcc5ff8d4a63d6bbbbd90fff491d": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/construction.py",
+    "reason": "Centered direct ridge normal equations and algebraic intercept.",
+    "reviewed_at": 1793803300.5379412
+  },
+  "68f10ecdcf487d9d9b021566f0a1832f7af9a3e8eeb2121b2a1db6f2f07604dc": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_003/edit.py",
+    "reason": "Solved residual ridge correction via full normal-equation system, not an unsolved residual-feature learning-rate step.",
+    "reviewed_at": 1793803300.537988
+  },
+  "416732e4afb766c6fc53a9b765574cecd5ab0e5ad1ad9048d9e2f67ede53f111": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_010/edit.py",
+    "reason": "Discrete scalar temperature grid using training cross-entropy; algebraic scaling, no derivative update.",
+    "reviewed_at": 1793803300.5380254
+  },
+  "98abb2a020aa2b4b901f585f81c165fd19061d9eabbc48b79432127e1464258c": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_004/edit.py",
+    "reason": "Training-only CV of a direct ridge affine mapping on current logits, algebraically composed into existing head weights.",
+    "reviewed_at": 1793803300.5380757
+  },
+  "b033fce1e417763c83c4d57a664ec8e5a66a58fd8cbfe70d0343210da8c6ab88": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_001/edit.py",
+    "reason": "Training-only five-fold ridge CV and direct full-pool head fit; optional batch diagnostics stay within feedback arrays.",
+    "reviewed_at": 1793803300.538133
+  },
+  "d6a43665e81a483d8e37d01230fc817438d667dee838359a469949adfed24448": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed0/construction.py",
+    "reason": "Direct ridge head normal equations on cached training features.",
+    "reviewed_at": 1793803348.405885
+  },
+  "197845225b7bf3745f10c10063c64acb86445a5cb0443bc98f1e85bb0a4638f9": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed0/llm/mutation_003/edit.py",
+    "reason": "Training-pool holdout ridge selection on token counts; algebraic fixed-mean/variance embedding and head encoding; transformer branches zeroed.",
+    "reviewed_at": 1793803348.4059625
+  },
+  "7d4f0964b013cd5774983bce763ff7e8ade46b24f68221da5b82ce167254271b": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed1/llm/mutation_004/edit.py",
+    "reason": "Token-presence class means and diagonal-covariance discriminant construction, followed by pooled-feature diagonal LDA; zeroed transformer blocks.",
+    "reviewed_at": 1793803348.4060926
+  },
+  "c4e5c8732f74e972e3cc79943ea55a6dd1a9442658f4759fba43a55fc44e8450": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/construction.py",
+    "reason": "Discrete comparison of original versus neutralized transformer/position features with direct ridge head refits on training feedback.",
+    "reviewed_at": 1793803348.406157
+  },
+  "198de252ab695f5d9a38c0fb83d5d68ece961048a42ce4e1f9db4aa1c5c51e1b": {
+    "verdict": "allowed_statistics",
+    "reviewer": "Codex source inspection",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_005/edit.py",
+    "reason": "Bag-of-words ridge token scores, algebraic fixed-norm embeddings and direct centered ridge head fit on forward-computed pooled features.",
+    "reviewed_at": 1793803348.4062135
+  },
+  "5ea4f7ed14e64e64c533d2cbc0b6b79fb60176266ecadf2f82b3a77181a797aa": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_011/edit.py",
+    "reason": "Fixed output-head scaling and clipping; no fitting loop.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060721
+  },
+  "b4ad413c2b3dc049f36bbc2c7cda5f889a278ae666a11301ee6f67890c052876": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/sst2/seed1/llm/mutation_037/edit.py",
+    "reason": "Closed-form ridge head fit with residual-mean bias adjustment.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060771
+  },
+  "ee3b995466411f35029a89bbdbbf8c49c89a38afe32e440e89eb13d57f620e24": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed0/llm/mutation_011/edit.py",
+    "reason": "Fixed positive layer/bias rescaling and centering; no optimization.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060793
+  },
+  "ce5a24965ad06a8dd298fd83d9fe4a9e8638616de1cfe50bb614109cb70c1400": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/mnist/seed0/llm/mutation_004/edit.py",
+    "reason": "Closed-form ridge fit on permitted paired feedback features.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060805
+  },
+  "8f3f3018ae15c54beecac7599e0cc2950ca68923ad1aff106ff2f466a162308e": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/mnist/seed1/llm/mutation_023/edit.py",
+    "reason": "Least-squares head fit with intercept; subsequent losses are diagnostics.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060822
+  },
+  "70abff5e9b93fdb22ce952c234ffd48eeb9156b6f7b3139388d57e4be010679f": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/mnist/seed0/llm/mutation_048/edit.py",
+    "reason": "Direct ridge inverse fit of head and intercept; diagnostics only thereafter.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060833
+  },
+  "d8b1c82aca27e4da9800f1064e7f3634a821fdec71f1078089998fa75ce047b6": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/repaired/models/nemotron/seed1/llm/mutation_040/edit.py",
+    "reason": "Closed-form least-squares constant residual-mean bias correction.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060843
+  },
+  "f7f8b45c1ab3623f37c126f62110d31658db2514dc0b6023a2a4c5e4c8483160": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/repaired/models/nemotron/seed1/llm/mutation_029/edit.py",
+    "reason": "Closed-form residual-mean output-bias correction with clipping.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060857
+  },
+  "fc64043c17e91f09df2d880a9f83d534d7348d3195af510c5468528522c2e5c4": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed0/llm/mutation_011/edit.py",
+    "reason": "Direct normal-equation convolutional readout fit using cached training patches.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.406087
+  },
+  "404f77227f118867cf78bf7e338272fcc0e9d51a29b6d6b49fc149bfebe4d541": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_028/edit.py",
+    "reason": "Closed-form bag-of-words ridge coefficients encoded in embeddings and head.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060879
+  },
+  "36876b6fb0fa8132640eb313cd4de2578aa3a4f70b5208bfea70ff920c0e586a": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/sst2/seed0/llm/mutation_013/edit.py",
+    "reason": "Direct regularized normal-equation head fit; losses only diagnostics.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060893
+  },
+  "1e710f9936cf5b64343368006d13b6d447e4680c52e5137b950f9b84df988b6c": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/repaired/models/nemotron/seed1/llm/mutation_060/edit.py",
+    "reason": "Closed-form spatial readout fit over cached training features and residual-mean intercept.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060905
+  },
+  "4a01b74b6e26dabc2de6094179137b411aa10e6547dfbbe6f5455fbbe1f05187": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/sst2/seed1/llm/mutation_042/edit.py",
+    "reason": "Independent closed-form ridge solves per class; diagnostics do not update weights.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060915
+  },
+  "f6697ab95ad43c64c5dd34b7cc8158ddc9212f20fcfc0bfc229eb9d0247e261c": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_012/edit.py",
+    "reason": "Computes derivative of training cross-entropy with respect to head scale, then runs60-step derivative-guided bisection and writes the optimized scale into head weights/bias. This is continuous parameter optimization, not a direct statistical fit or permitted discrete model choice.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883495.4060934
+  },
+  "99b5747ae96d9d8414eb81962f219d558787970ae1d0fd11e0e606657c412a67": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed2/llm/mutation_052/edit.py",
+    "reason": "Class-mean contrasts and PCA directions construct hidden features; direct ridge solution fits readout.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774222
+  },
+  "12e511669dde388a0ae32608f042e4b512e5d2f4dc1fdd903b0f65f99c99678e": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/mnist/seed2/llm/mutation_011/edit.py",
+    "reason": "Closed-form ridge head and intercept; probability calculations are diagnostics.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774272
+  },
+  "070c4c2b301cee70802cf3f311530d970f99c52f63849cb40ba295cd7c06c994": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_028/edit.py",
+    "reason": "Chunked accumulation of spatial normal equations followed by one direct regularized solve.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774298
+  },
+  "192fa27c57cda7328a861945d88544913a8605a704f685864ea70b29ea7b6fb4": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_002/edit.py",
+    "reason": "PCA of training bag-of-words counts constructs normalized embeddings; head is a direct ridge solve.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774315
+  },
+  "148fce367acafab67df217b837707b7728a444d8d27a23a0f474ad695a75aef3": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/sst2/seed1/llm/mutation_015/edit.py",
+    "reason": "Closed-form ridge head/intercept; probabilities are diagnostic only.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.277433
+  },
+  "21c5e4e8fdb2d936c62f9aa8cf0fdef3288a04d6f55b36732d28e46a2d69c4f4": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed1/llm/mutation_048/edit.py",
+    "reason": "Spatial normal equations and a direct solve/lstsq fallback; training-MSE acceptance is a single discrete comparison.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774348
+  },
+  "e06bcc2353c3c5611feeb47c5d518e5caf32c0ff7ec51e5382e3e57c01782d5c": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_024/edit.py",
+    "reason": "Training-only discrete ridge-penalty choice and direct full-pool refit.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.277436
+  },
+  "6c2a0a480fe3f13649fa98cddda91d3a6fdcbb429c16bbca3e40055e984d2bfb": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_023/edit.py",
+    "reason": "Embedding normalization, class covariance/LDA direction and deterministic scaling; no parameter-gradient step.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774372
+  },
+  "030d473de1ab56bed96d49f3395d260478321f6d40e855d22e9ce9f74f01db8e": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/minimax/seed1/llm/mutation_042/edit.py",
+    "reason": "Single closed-form centered ridge readout fit; per-timestep diagnostics only.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774384
+  },
+  "1196b0e5f7f15bfb3c19be0c262f615efc71d0448b77d0b0adce56c89afedcdd": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed0/llm/mutation_026/edit.py",
+    "reason": "Single direct convolutional readout normal-equation solve.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774398
+  },
+  "3637500007f9e86cc3fef2122d43944d57fbd9b45ff7a10d584822d3a512da0b": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/sst2/seed0/llm/mutation_027/edit.py",
+    "reason": "Closed-form classwise ridge head with intercept; no optimizer updates.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.277441
+  },
+  "10975b92b80467c928c8d33898fdb3b7fc2047883cb61d5425dadc71086dc681": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed2/llm/mutation_026/edit.py",
+    "reason": "Training-only discrete lambda selection on cached convolutional patches, then a direct full-pool solve.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774422
+  },
+  "048f92e7e942ed7da4f98223d38850ce3f59354fbe78f9fe99abc75c1cd2bba1": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/nemotron/fashion/seed1/llm/mutation_051/edit.py",
+    "reason": "After a permitted ridge weight fit, adds mean(onehot targets minus softmax probabilities) to current head bias. This is a manually computed cross-entropy bias-gradient step, not a closed-form intercept fit.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883624.2774448
+  },
+  "2f8ba412fdbe5fa9c17cbd69c8d4f4e4ccf131f3867a4d43a93596f9c7e3de37": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/nemotron/sst2/seed1/llm/mutation_012/edit.py",
+    "reason": "Closed-form ridge fits and exact mean residual intercept per class; softmax only diagnostics.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.053453
+  },
+  "50d8f07ce5223d6e602b9d91f82ba6f8cd868dba0f745205bc4a597baf18920d": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed2/llm/mutation_038/edit.py",
+    "reason": "Two closed-form readout fits and one training-only discrete choice, optionally installing an identity conv3.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.053459
+  },
+  "1fd3ad0c10f0b3ccaeb9fee9d8afea915fc817e4170d40e3d5d9d632a7a17046": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_009/edit.py",
+    "reason": "Bag-of-words ridge fit encoded in normalized embeddings, followed by a direct ridge head refit.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.0534618
+  },
+  "483889c46f57d3004700fe9e2a9c4282d06fe03bb77bbeb9f9c55687b9e2d436": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/sst2/seed2/llm/mutation_058/edit.py",
+    "reason": "Finite training-only lambda CV and one full-pool bag-of-words ridge fit encoded into network tensors.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.0534632
+  },
+  "c5da6ece8ace1f9ca98c7b1b27b328e01c9fa0c5f9377520a34acc336771b713": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/sst2/seed1/llm/mutation_019/edit.py",
+    "reason": "Bag-of-words ridge coefficients in embeddings plus a direct ridge head fit; no optimizer loop.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.053465
+  },
+  "05053968e920867931fd20d490fb807888b2d0287ab5f5743558431ebbbba723": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed2/llm/mutation_028/edit.py",
+    "reason": "Finite ridge CV for pixel classifier and final head; pixel classifier features inserted into fixed hidden units. Internal CV is not nested.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.053466
+  },
+  "65a435a9d8bcc846e49f0a93760ef95106c865cdf2ca33ac901034ceda0a35b9": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/fashion/seed0/llm/mutation_013/edit.py",
+    "reason": "Finite temperature grid and class-margin threshold statistics with finite candidate comparisons, all on training data; no derivative optimization.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.0534673
+  },
+  "e43a0ff853b436bb8690c8883fabf03d6fe18db81af8283788766efa323b07a5": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/fashion/seed2/llm/mutation_015/edit.py",
+    "reason": "Training-only finite ridge candidates/CV plus fixed percentile-based head scale.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.0534687
+  },
+  "d959b4313a288cec6bce98a6ccf8dca3e1d15ddcf87abfe0f6f086b48335de18": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/repaired_v2/models/nemotron/seed0/llm/mutation_025/edit.py",
+    "reason": "Spatial sufficient-statistic accumulation and a single closed-form ridge readout solve.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.0534697
+  },
+  "f3e9e234416933314c4fbcbdb2b1b826afba38a6f87bfda1678896fe27dfc211": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/fashion/seed1/llm/mutation_027/edit.py",
+    "reason": "Training-only ridge recalibration selection plus fixed margin-derived scale; softmax is diagnostic.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.053471
+  },
+  "2ad784c0d7c6657ee4f077dbdae3ab262ce87eb358e208f98c3a0b1578bec2e3": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/minimax/seed2/llm/mutation_027/edit.py",
+    "reason": "Chunked spatial normal equations and one direct ridge solve; prediction loops are forward inference.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.053472
+  },
+  "313bf5d340b2b995d71c4a7bd15ba68fa22a6be235d9cb3fa6e2ed8d33acb486": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed2/llm/mutation_046/edit.py",
+    "reason": "Class means and regularized covariance/LDA directions replace hidden units, followed by direct ridge head fitting and training-only fallback.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883687.0534797
+  },
+  "d724364df67a10cc2c308dd0247d2f5854516e61782948aef9189e7706ad000b": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/deepseek10/mnist/seed2/llm/mutation_018/edit.py",
+    "reason": "PCA/LDA and finite quantile feature ranking followed by training-only ridge-penalty CV and direct readout fitting.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883709.4640818
+  },
+  "fe69423991b1d7a5a949af1e107cb4d8814c0047dccf0be2f38b8c30fd5806f2": {
+    "verdict": "allowed_statistics",
+    "source": "diffusion_runs/models/deepseek/seed2/llm/mutation_039/edit.py",
+    "reason": "Spatial normal-equation accumulation, training-only finite ridge grid and final direct solve.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883709.4640863
+  },
+  "fedf4048d6961081ec95aca9e72e74a4b550f583f7957a3b8326dcbd792cbfae": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/sst2/seed1/llm/mutation_028/edit.py",
+    "reason": "Training token-count Naive Bayes scores build embeddings; internal forward passes and a direct ridge readout fit. No gradient computation.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883709.464089
+  },
+  "a1e22e57e99023f469874dc877c9980da2d2c8d74a151cc4234df551c6bdeb88": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/sst2/seed2/llm/mutation_016/edit.py",
+    "reason": "Token-count log-odds with fixed blending, deterministic embedding normalization and one direct ridge head fit.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883709.46409
+  },
+  "27525ba1d2762ff09d9fc29c0971d32661468e43d6088f77346bea6b84457f4c": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed1/llm/mutation_027/edit.py",
+    "reason": "Finite PCA/LDA/teacher feature candidates, analytic ridge-LOO/CV and final direct readout fit.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883910.9056041
+  },
+  "418656af208f2a70459619ef0171b7b5c507a73179c5a7ded48e97b538178052": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed2/llm/mutation_053/edit.py",
+    "reason": "Finite ridge/LDA and augmentation candidates, discrete blends/calibration grid and direct regression of chosen scores.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883910.905611
+  },
+  "3c327aacd7da80528412815dcb2a9afa85bede0c5285d7e5d3ed99a898e98ccf": {
+    "verdict": "prohibited_optimizer",
+    "source": "expansion_runs/classification/minimax/sst2/seed2/llm/mutation_055/edit.py",
+    "reason": "Performs two hand-written Newton iterations on logistic scale/intercept using g0/g1 and a2x2 Hessian determinant, then writes optimized scale/intercept into network head. A prohibited iterative parameter optimizer.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793883910.9056144
+  },
+  "ecf871ab165f739f6c4b77768c3c4fb93d48b330ac1c674825b73b598fc20873": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed1/llm/mutation_045/edit.py",
+    "reason": "Finite training-only ridge/LDA/candidate CV and temperature grids; direct closed-form fits, with no parameter gradients.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793884192.9139538
+  },
+  "31c5aee122d861c70f7ee0f3755026c74def4d2f118f10e8cf1a1fdaf542f0bc": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed0/llm/mutation_045/edit.py",
+    "reason": "Finite ridge/LDA candidate selection and direct solves. The while loop fills random feature units; it does not optimize a loss.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793884192.913959
+  },
+  "f154e60a7793e5d40ac013ec0ee3ef54cdf553b39161278bf2cf7debbe4e6f28": {
+    "verdict": "allowed_statistics",
+    "source": "expansion_runs/classification/minimax/mnist/seed2/llm/mutation_049/edit.py",
+    "reason": "Direct ridge/LDA/PCA constructions, fixed augmentation, finite candidate/temperature selection and one log-ratio probability calibration; no loss-gradient step.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793884192.913961
+  },
+  "b967c60851b7faf7636910050b5bd72a65310b49c223762666feb493f701ac41": {
+    "verdict": "allowed_statistics",
+    "source": "repairs/expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_049/edit.py",
+    "reason": "Direct ridge solve and fixed logit-variance scaling.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793942921.676515
+  },
+  "688a8daee60108472fc037f10740a2d48f026dba833c859832ead59cbbc372bf": {
+    "verdict": "allowed_statistics",
+    "source": "repairs/expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_029/edit.py",
+    "reason": "Finite training-only cross-validation over LDA/ridge/residual ridge; all parameter fits are closed-form solves.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793942921.6765635
+  },
+  "43105690ede6c908e4258e26a295205a7604e488964f44da164fa675d66f8b87": {
+    "verdict": "allowed_statistics",
+    "source": "repairs/expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_055/edit.py",
+    "reason": "Analytic leave-one-out ridge estimates over a finite regularization grid, then a finite temperature grid.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793942921.6765985
+  },
+  "45af679a941f57d24245664695c5e94b6b6546bd0c1ecfd69261025fec19a329": {
+    "verdict": "allowed_statistics",
+    "source": "repairs/expansion_runs/classification/deepseek10/fashion/seed2/llm/mutation_011/edit.py",
+    "reason": "Finite temperature grid on permitted training logits.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793942921.6766267
+  },
+  "89deb359405d47f19d1ce53bbd4b994ddd847bb67f1d0f28cae7d2a258f8369d": {
+    "verdict": "allowed_statistics",
+    "source": "repairs/expansion_runs/classification/minimax/sst2/seed2/llm/mutation_012/edit.py",
+    "reason": "Training token counts, direct ridge solves and fixed embedding/head construction; half-split fits are diagnostics. Attention disabled.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793942921.67669
+  },
+  "de05683f7c93a521612a3c937fb522ed399c95bd1632f8497907ff58f0986841": {
+    "verdict": "allowed_statistics",
+    "source": "repairs/expansion_runs/classification/minimax/sst2/seed2/llm/mutation_022/edit.py",
+    "reason": "Token count/presence/negation views fitted by direct ridge solves; reproduced forward activations and ridge head. Attention disabled.",
+    "reviewer": "Codex full-source inspection",
+    "reviewed_at": 1793942921.6767383
+  }
+}

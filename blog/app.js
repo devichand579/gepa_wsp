@@ -58,18 +58,18 @@
 
   function drawModels() {
     $("model-cards").innerHTML=["deepseek","minimax","nemotron"].map(model=>{
-      const rows=taskSummary("models",modelTask,model),start=rows[0],end=rows[2];
+      const rows=taskSummary("models",modelTask,model),start=rows[0],end=rows.find(r=>r.budget===60);
       const failures=D.reliability.filter(r=>r.group==="models"&&r.task===modelTask&&r.model===model&&!r.construction_succeeded).length;
-      return `<article class="model-card"><h3>${names[model]}</h3><span class="fine">10-mutation held-out mean</span><div class="model-value">${pct(end.accuracy_mean)}</div><div class="micro-bar" role="img" aria-label="One shot ${pct(start.accuracy_mean)}; ten mutations ${pct(end.accuracy_mean)}"><span class="end" style="width:${end.accuracy_mean*100}%"></span><span class="start" style="left:${start.accuracy_mean*100}%"></span></div><div class="micro-labels"><span>0%</span><span>100%</span></div><p>One shot <b>${pct(start.accuracy_mean)}</b> · SD at 10: ${(end.accuracy_sd*100).toFixed(2)} pp</p><p class="cost">${money(end.mean_cumulative_api_cost)} / seed</p><p class="warning">${failures?`${failures}/3 one-shot constructions failed; random weights retained.`:"All three one-shot constructions passed validation."}</p></article>`;
+      return `<article class="model-card"><h3>${names[model]}</h3><span class="fine">60-mutation held-out mean</span><div class="model-value">${pct(end.accuracy_mean)}</div><div class="micro-bar" role="img" aria-label="One shot ${pct(start.accuracy_mean)}; 60 mutations ${pct(end.accuracy_mean)}"><span class="end" style="width:${end.accuracy_mean*100}%"></span><span class="start" style="left:${start.accuracy_mean*100}%"></span></div><div class="micro-labels"><span>0%</span><span>100%</span></div><p>One shot <b>${pct(start.accuracy_mean)}</b> · SD at 60: ${(end.accuracy_sd*100).toFixed(2)} pp</p><p class="cost">${money(end.mean_cumulative_api_cost)} / seed</p><p class="warning">${failures?`${failures}/3 one-shot constructions failed; random weights retained.`:"All three one-shot constructions passed validation."}</p></article>`;
     }).join("");
   }
 
   function drawDiffusion() {
     const W=750,H=355,p={l:54,r:25,t:43,b:50};
     const colors={deepseek:'#205c4b',minimax:'#b65337',nemotron:'#5e738d'};
-    const x=b=>p.l+(W-p.l-p.r)*b/20;
+    const x=b=>p.l+(W-p.l-p.r)*b/60;
     const y=v=>p.t+(H-p.t-p.b)*(Math.log10(30)-Math.log10(v))/(Math.log10(30)-Math.log10(.05));
-    let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="diff-title diff-desc"><title id="diff-title">Held-out diffusion denoising MSE by mutation budget</title><desc id="diff-desc">Log scale, lower is better. Mean over three seeds, with individual seed dots. At 20 mutations: DeepSeek 0.27113, MiniMax 0.84117, Nemotron 1.00299. Adam mean 0.09161.</desc><text x="${p.l}" y="15" font-family="system-ui" font-size="12" fill="#667066">Noise-prediction MSE · log scale · lower is better</text>`;
+    let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="diff-title diff-desc"><title id="diff-title">Held-out diffusion denoising MSE by mutation budget</title><desc id="diff-desc">Log scale, lower is better. Mean over three seeds, with individual seed dots. At 60 mutations: DeepSeek 0.25518, MiniMax 0.50622, Nemotron 0.53842. Adam mean 0.09161.</desc><text x="${p.l}" y="15" font-family="system-ui" font-size="12" fill="#667066">Noise-prediction MSE · log scale · lower is better</text>`;
     [.1,1,10].forEach(v=>{svg+=`<line x1="${p.l}" x2="${W-p.r}" y1="${y(v)}" y2="${y(v)}" stroke="#d7dacd"/><text x="${p.l-10}" y="${y(v)+4}" text-anchor="end" font-family="system-ui" font-size="12" fill="#667066">${v}</text>`;});
     Object.entries(colors).forEach(([model,color],i)=>{
       const rows=D.diffusion_summary.filter(r=>r.model===model).sort((a,b)=>a.budget-b.budget);
@@ -81,15 +81,15 @@
     });
     const baseline=mean(D.baselines.filter(r=>r.task==='diffusion').map(r=>r.mse));
     svg+=`<path d="M${p.l} ${y(baseline)}H${W-p.r}" fill="none" stroke="#6b6253" stroke-width="1.6" stroke-dasharray="5 5"/><text x="${W-p.r}" y="${y(baseline)-8}" text-anchor="end" font-size="11" fill="#6b6253" font-family="system-ui">Adam ${baseline.toFixed(5)}</text>`;
-    [0,5,10,20].forEach(b=>{svg+=`<text x="${x(b)}" y="${H-p.b+23}" text-anchor="middle" font-family="system-ui" font-size="12" fill="#667066">${b}</text>`;});
+    [0,5,10,20,30,60].forEach(b=>{svg+=`<text x="${x(b)}" y="${H-p.b+23}" text-anchor="middle" font-family="system-ui" font-size="12" fill="#667066">${b}</text>`;});
     svg+=`<text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="12" fill="#667066" font-family="system-ui">Mutation requests after one-shot construction</text></svg>`;
     $('diffusion-chart').innerHTML=svg;
   }
 
   function drawSamples() {
     const seed=Number($("diff-seed").value), rows=D.diffusion.filter(r=>r.model===diffModel&&r.seed===seed);
-    const one=rows.find(r=>r.budget===0),end=rows.find(r=>r.budget===20),baseline=D.baselines.find(r=>r.task==="diffusion"&&r.seed===seed);
-    $("sample-grids").innerHTML=[[one,"One shot / 0",names[diffModel]],[end,"After 20 mutations",names[diffModel]],[baseline,"Adam baseline","Adam"]].map(([r,title,label])=>`<figure><h3>${title}</h3><img src="assets/${esc(r.generation.grid.split('/').pop())}" width="360" height="360" alt="${label}, seed ${seed}, ${title}: first 64 fixed draws"><div class="sample-mse">Seed ${seed} MSE: ${r.mse.toFixed(5)}</div><figcaption>${label} · fixed first 64 draws</figcaption></figure>`).join("");
+    const one=rows.find(r=>r.budget===0),end=rows.find(r=>r.budget===60),baseline=D.baselines.find(r=>r.task==="diffusion"&&r.seed===seed);
+    $("sample-grids").innerHTML=[[one,"One shot / 0",names[diffModel]],[end,"After 60 mutations",names[diffModel]],[baseline,"Adam baseline","Adam"]].map(([r,title,label])=>`<figure><h3>${title}</h3><img src="assets/${esc(r.generation.grid.split('/').pop())}" width="360" height="360" alt="${label}, seed ${seed}, ${title}: first 64 fixed draws"><div class="sample-mse">Seed ${seed} MSE: ${r.mse.toFixed(5)}</div><figcaption>${label} · fixed first 64 draws</figcaption></figure>`).join("");
     $("sample-download").href="../results/generations/"+end.generation.samples.split("/").pop();
     $("sample-download").setAttribute("download","");
   }
@@ -155,7 +155,7 @@
   }
 
   function reliability() {
-    const groups=[["budget","60-call classification"],["models","Matched 10-call classification"],["diffusion","20-call diffusion"]];
+    const groups=[["budget","Original 60-call classification"],["models","Matched 60-call classification"],["diffusion","60-call diffusion"]];
     $("reliability-bars").innerHTML=groups.map(([group,name])=>{
       const rows=D.reliability.filter(r=>r.group===group),n=rows.reduce((s,r)=>s+r.mutation_budget,0),valid=rows.reduce((s,r)=>s+r.valid_mutation_programs,0),fail=rows.filter(r=>!r.construction_succeeded).length;
       return `<div class="reliability-row"><div><span>${name}</span><b>${valid} / ${n}</b></div><div class="track" role="img" aria-label="${valid} of ${n} programs valid"><div class="fill" style="width:${100*valid/n}%"></div></div><small>${fail} failed one-shot construction${fail===1?'':'s'} / ${rows.length}</small></div>`;

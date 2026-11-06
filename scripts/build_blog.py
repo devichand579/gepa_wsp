@@ -32,7 +32,18 @@ def extract_losses(archive):
             baselines[baseline_key] = dict(task=row['task'], seed=row['seed'], lr=lr, axis=axis,
                 selected_x=adam['best'][axis], selected_loss=adam['best'][metric],
                 points=[dict(x=r[axis], loss=r[metric]) for r in adam['history'] if r['lr'] == lr], source_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
-    payload = dict(split='selection', n_examples=1000, scope='Existing declared frozen GEPA budget prefixes and Adam development histories. No training, inference, final-test access or API calls.',
+    for job in jobs.values():
+        row = next(r for r in result['classification']+result['diffusion'] if all(r[k] == job[k] for k in ['group', 'task', 'model', 'seed']))
+        path = (archive/row['weights']).parent.parent/'loss_curve.jsonl'
+        if path.exists():
+            metric = 'mse' if job['task'] == 'diffusion' else 'cross_entropy'
+            observed = {p['budget']:dict(p) for p in job['points']}
+            for line in path.read_text().splitlines():
+                record = json.loads(line)
+                observed[record['mutation_calls']] = dict(budget=record['mutation_calls'], loss=record['selection'][metric], training_loss=record['feedback'][metric], candidate=record['candidate'])
+            job['observations'] = [observed[n] for n in sorted(observed)]
+            job['observations_sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+    payload = dict(split='selection', n_examples=1000, scope='Frozen GEPA prefixes, per-mutation full-training/development observations during continuations, and Adam development histories. Before continuation only the original declared prefixes were logged. No training, inference or API calls in this export.',
                    selection='Classification checkpoint selection uses the recorded composite score, not minimum cross-entropy. Diffusion selection minimizes MSE. Adam shows each seed’s selected-learning-rate trial, not all hyperparameter trials.',
                    jobs=list(jobs.values()), baselines=baselines)
     exported = ROOT/'results/loss_curves.json'
@@ -60,9 +71,10 @@ def plot_losses(data):
         for model in sorted({j['model'] for j in selected}):
             rows = sorted([j for j in selected if j['model'] == model], key=lambda j:j['seed'])
             assert [r['seed'] for r in rows] == [0, 1, 2]
-            points = [sorted(r['points'], key=lambda p:p['budget']) for r in rows]
-            x = np.array([p['budget'] for p in points[0]])
-            values = np.array([[p['loss'] for p in row] for row in points])
+            points = [{p['budget']:p for p in r.get('observations', r['points'])} for r in rows]
+            common = sorted(set.intersection(*(set(p) for p in points)))
+            x = np.array(common)
+            values = np.array([[row[n]['loss'] for n in common] for row in points])
             positives.extend(values.ravel().tolist())
             avg = values.mean(0)
             axes[0].plot(x, avg, 'o-', color=colors[model], label=names[model], lw=1.8, ms=4)
@@ -81,7 +93,7 @@ def plot_losses(data):
             ax.set_yscale('log'); ax.set_ylim(lo, hi)
             ax.grid(True, which='major', alpha=.22)
             ax.legend(fontsize=8, frameon=False)
-        axes[0].set_title('GEPA: selected budget checkpoints', loc='left', fontsize=11)
+        axes[0].set_title('GEPA: development-selected candidates', loc='left', fontsize=11)
         axes[0].set_xlabel('Mutation requests after one-shot construction')
         axes[0].set_xticks(sorted({p['budget'] for j in selected for p in j['points']}))
         axes[0].set_ylabel('Development MSE (log scale)' if task == 'diffusion' else 'Development cross-entropy (log scale)')
@@ -144,7 +156,7 @@ def extract_predictions(archive):
             assert [s['label'] for s in section['samples']] == data['y'][:24].tolist()
             baseline = next(r for r in result['baselines'] if r['task'] == task and r['seed'] == seed)
             adam = cached(Path(f'rich_runs/rich_main/{task}/seed{seed}/adam_best.npz'), data, task, seed, baseline['accuracy'])
-            for group, model, budget in [('budget', 'deepseek', 60), ('models', 'deepseek', 10), ('models', 'minimax', 10), ('models', 'nemotron', 10)]:
+            for group, model, budget in [('budget', 'deepseek', 60), ('models', 'deepseek', 60), ('models', 'minimax', 60), ('models', 'nemotron', 60)]:
                 rows = [r for r in result['classification'] if r['task'] == task and r['seed'] == seed and r['group'] == group and r['model'] == model]
                 first = next(r for r in rows if r['budget'] == 0)
                 final = next(r for r in rows if r['budget'] == budget)
@@ -183,13 +195,19 @@ def main():
         rows.append('<tr data-group="{group}" data-task="{task}" data-model="{model}"><td>{group}</td><td>{task_name}</td><td>{model}</td><td>{budget}</td><td>{result}</td><td>${cost:.4f}</td></tr>'.format(
             **row, task_name=html.escape(NAMES[row["task"]]), result=result, cost=row["mean_cumulative_api_cost"]))
     template = (ROOT / "scripts/templates/blog.html").read_text()
-    (BLOG / "index.html").write_text(template.replace("<!-- RESULT_ROWS -->", "\n".join(rows)))
+    comparisons = []
+    for task in ['mnist', 'fashion', 'sst2']:
+        adam = sum(r['accuracy'] for r in data['baselines'] if r['task'] == task)/3
+        for model in ['deepseek', 'minimax', 'nemotron']:
+            cells = {r['budget']:r['accuracy_mean'] for r in data['classification_summary'] if r['group'] == 'models' and r['task'] == task and r['model'] == model}
+            comparisons.append(f"<tr><td>{NAMES[task]}</td><td>{model}</td><td>{100*cells[10]:.2f}%</td><td>{100*cells[60]:.2f}%</td><td>{100*(cells[60]-cells[10]):+.2f} pp</td><td>{100*adam:.2f}%</td></tr>")
+    (BLOG / "index.html").write_text(template.replace("<!-- RESULT_ROWS -->", "\n".join(rows)).replace('<!-- FOLLOWUP_ROWS -->', '\n'.join(comparisons)))
     assets = BLOG / "assets"
     assets.mkdir(exist_ok=True)
     for row in data["diffusion"] + [r for r in data["baselines"] if r["task"] == "diffusion"]:
         source = ROOT / "results/generations" / Path(row["generation"]["grid"]).name
         shutil.copy2(source, assets / source.name)
-    print("Built blog: 54 aggregate rows, 162 budget measurements, cached examples and diffusion grids; no API calls.")
+    print(f"Built blog: {len(rows)} aggregate rows, {len(data['classification'])+len(data['diffusion'])} budget measurements, cached examples and diffusion grids; no API calls.")
 
 
 if __name__ == "__main__":
