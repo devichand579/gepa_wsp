@@ -7,8 +7,9 @@
       "original_path": "expanded_results/results.json"
     },
     "results/summary.csv": {
-      "sha256": "7586fa6885cbd5476cc0e79ce8e9138cc99b5a62791c23d6a73150679ff3bedb",
-      "original_path": "expanded_results/summary.csv"
+      "sha256": "203bdf13509e035d7f26881987e5aafa269eef7ace0178514bddfeafe00a96e3",
+      "original_path": "expanded_results/summary.csv",
+      "note": "CSV values unchanged; LF line endings in the condensed checkout."
     },
     "results/audit.json": {
       "sha256": "38c3f413dc63cd1f5b317a33015623c8ff524904083801a1565a232073f8c9a6",
