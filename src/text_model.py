@@ -1,22 +1,10 @@
 """Fixed SST-2 transformer container and its Adam baseline."""
 from __future__ import annotations
-
-
 import json, types
-
-
 import numpy as np
-
-
 import torch
-
-
 from torch import nn
-
-
 from torch.nn import functional as F
-
-
 import core as image
 
 
